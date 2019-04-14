@@ -1,0 +1,54 @@
+\documentclass[runningheads]{llncs}
+
+% Full page margins
+\usepackage{fullpage}
+
+% For language
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+% For figures
+\usepackage{graphicx}
+
+% Standard colors
+\usepackage[dvipsnames]{xcolor}
+
+% For links
+\usepackage{hyperref}
+\usepackage{cleveref}
+\hypersetup {
+	linkcolor  = MidnightBlue,
+	citecolor  = MidnightBlue,
+	urlcolor   = MidnightBlue,
+	colorlinks = true,
+}
+
+% For bibliography
+\usepackage[backend=biber]{biblatex}
+\addbibresource{references.bib}
+
+% TODO remove
+\usepackage{lipsum}
+
+\begin{document}
+
+	% Title
+	\title{Single Image Super-Resolution and Denoising using Convolutional Neural Networks}
+	\author{Guillermo Ruiz Álvarez}
+	\institute{University of Málaga - \email{grabmct@uma.es}}
+	
+	\maketitle
+	
+	% TODO abstract
+	\abstract{abstract}
+	% TODO keywords
+	\keywords{First keyword \and Second keyword \and Another keyword.}
+	
+	\input{sections/introduction.tex}
+	\input{sections/background.tex}
+	\input{sections/experiments.tex}
+	\input{sections/conclusions.tex}
+	
+	\printbibliography
+
+\end{document}
