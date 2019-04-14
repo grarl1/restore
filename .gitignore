@@ -1,5 +1,6 @@
 # Latex
 *~
+*~*
 *.aux
 *.bbl
 *.bcf
@@ -8,3 +9,4 @@
 *.out
 *.run.xml
 *.synctex.gz
+*.pdf
