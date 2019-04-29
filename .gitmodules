@@ -1,0 +1,6 @@
+[submodule "nets/FSRCNN-TensorFlow"]
+	path = nets/FSRCNN-TensorFlow
+	url = https://github.com/guillermoruizalv/FSRCNN-TensorFlow
+[submodule "nets/IRCNN"]
+	path = nets/IRCNN
+	url = https://github.com/guillermoruizalv/IRCNN
