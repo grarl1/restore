@@ -1,0 +1,5 @@
+Things to mention
+=================
+
+- SRCNN: only luminance component for training
+- ReLU
