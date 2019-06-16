@@ -3,23 +3,49 @@ import sys
 import argparse
 from PIL import Image
 
-def resize(scale, downsample, input_dir, output_dir):
+def resize_image(image, scale, downsample=True):
+    ''' Resizes an image
+    :param image: PIL.Image to rescale
+    :param scale: resize scale factor
+    :param downsample: if true, the image will be reduced
+    :return: resized image
+    :rtype: PIL.Image
+    '''
+    # Get current size
+    (width, height) = image.size
+
+    # Process sampling
+    if downsample:
+        # Remove extra pixels
+        image = image.crop((0, 0, width - width % scale, height - height % scale))
+        (new_width, new_height) = width // scale, height // scale
+    else:
+        (new_width, new_height) = width * scale, height * scale
+
+    # Resize 
+    return image.resize((new_width, new_height), Image.BICUBIC)
+
+
+def resize_images(input_dir, output_dir, scale, downsample):
+    ''' Resize a set of images
+    :param input_dir: input directory containing images
+    :param output_dir: output directory to store images (will be created if not existing)
+    :param scale: resize scale factor
+    :param downsample: if true, the image will be reduced
+    '''
     for item in os.listdir(input_dir):
+        # Get image path
         print("Procesing {}".format(item))
-        f = os.path.join(input_dir, item)
-        if os.path.isfile(f):
-            image = Image.open(f)
-            (width, height) = image.size
-            if downsample:
-                image = image.crop((0, 0, width - width % scale, height - height % scale))
-                (new_width, new_height) = width // scale, height // scale
-            else:
-                (new_width, new_height) = width * scale, height * scale
-            scaled_image = image.resize((new_width, new_height), Image.BICUBIC)
-            
+        image_path = os.path.join(input_dir, item)
+
+        # Only process files
+        if os.path.isfile(image_path):
+
+            # Open image and get size
+            image = Image.open(image_path)
+            scaled_image = resize_image(image, scale, downsample)
             scaled_image.save(os.path.join(output_dir, item))
-
-
+            
 if __name__ == "__main__":
     # Create parser
     parser = argparse.ArgumentParser(description='Resize images in a directory')
@@ -37,4 +63,5 @@ if __name__ == "__main__":
         os.makedirs(args.output_dir)
 
     # Resize
-    resize(int(args.scale), bool(args.downsample), args.input_dir, args.output_dir)
+    resize_images(args.input_dir, args.output_dir, int(args.scale), bool(args.downsample))
+
