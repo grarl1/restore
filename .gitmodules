@@ -8,3 +8,7 @@
 	path = nets/IRCNN_Keras
 	url = git@github.com:guillermoruizalv/IRCNN_Keras.git
 	branch = master
+[submodule "nets/FSRCNN_Keras"]
+	path = nets/FSRCNN_Keras
+	url = git@github.com:guillermoruizalv/FSRCNN_Keras.git
+	branch = master
