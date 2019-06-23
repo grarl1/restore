@@ -10,5 +10,5 @@
 	branch = master
 [submodule "nets/CNN_Keras"]
 	path = nets/CNN_Keras
-	url = git@github.com:guillermoruizalv/CNN_Keras.git
+	url = https://github.com/guillermoruizalv/CNN_Keras
 	branch = master
