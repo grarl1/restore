@@ -1,7 +1,3 @@
-[submodule "nets/IRCNN_Keras"]
-	path = nets/IRCNN_Keras
-	url = https://github.com/guillermoruizalv/IRCNN_Keras
-	branch = master
 [submodule "nets/CNN_Keras"]
 	path = CNN_Keras
 	url = https://github.com/guillermoruizalv/CNN_Keras
