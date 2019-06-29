@@ -11,13 +11,13 @@ function [] = denoise_bilat(input_path, output_path)
         in_abs_path = fullfile(input_path, in_file_name);
 	% Process only files
 	if isfile(in_abs_path)
-            disp("Processing " + in_file_name)
-            in_image = imread(in_abs_path);
+        disp("Processing " + in_file_name)
+        in_image = imread(in_abs_path);
 	    % Apply filter
-            out_image = imbilatfilt(in_image);
-            imwrite(out_image, fullfile(output_path, in_file_name));
+        out_image = imbilatfilt(in_image);
+        imwrite(out_image, fullfile(output_path, in_file_name));
 	else
-            disp("Skipping " + in_file_name)
+        disp("Skipping " + in_file_name)
 	end
     end
 

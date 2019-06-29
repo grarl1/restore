@@ -16,7 +16,6 @@ def resize_image(image, scale, downsample=True):
 
     # Process sampling
     if downsample:
-        # Remove extra pixels
         image = image.crop((0, 0, width - width % scale, height - height % scale))
         (new_width, new_height) = width // scale, height // scale
         filter_ = Image.LANCZOS
