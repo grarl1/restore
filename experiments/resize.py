@@ -19,11 +19,13 @@ def resize_image(image, scale, downsample=True):
         # Remove extra pixels
         image = image.crop((0, 0, width - width % scale, height - height % scale))
         (new_width, new_height) = width // scale, height // scale
+        filter_ = Image.LANCZOS
     else:
         (new_width, new_height) = width * scale, height * scale
+        filter_ = Image.BICUBIC
 
     # Resize 
-    return image.resize((new_width, new_height), Image.BICUBIC)
+    return image.resize((new_width, new_height), filter_)
 
 
 def resize_images(input_dir, output_dir, scale, downsample):
