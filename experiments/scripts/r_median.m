@@ -1,5 +1,5 @@
 % Reduce noise using imbilatfilt
-function [] = denoise_bilat(input_path, output_path)
+function [] = r_median(input_path, output_path)
 
     % Create output dir
     disp("Creating " + output_path);
@@ -14,7 +14,12 @@ function [] = denoise_bilat(input_path, output_path)
         disp("Processing " + in_file_name)
         in_image = imread(in_abs_path);
 	    % Apply filter
-        out_image = imbilatfilt(in_image);
+        R = in_image(:,:,1);
+		G = in_image(:,:,2);
+		B = in_image(:,:,3);
+		out_image(:,:,1) = medfilt2(R);
+		out_image(:,:,2) = medfilt2(G);
+		out_image(:,:,3) = medfilt2(B);
         imwrite(out_image, fullfile(output_path, in_file_name));
 	else
         disp("Skipping " + in_file_name)

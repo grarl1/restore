@@ -1,5 +1,5 @@
 % Reduce noise using imbilatfilt
-function [] = denoise_bilat(input_path, output_path)
+function [] = r_imbilat(input_path, output_path)
 
     % Create output dir
     disp("Creating " + output_path);
@@ -14,7 +14,7 @@ function [] = denoise_bilat(input_path, output_path)
         disp("Processing " + in_file_name)
         in_image = imread(in_abs_path);
 	    % Apply filter
-        out_image = medfilt3(in_image);
+        out_image = imbilatfilt(in_image);
         imwrite(out_image, fullfile(output_path, in_file_name));
 	else
         disp("Skipping " + in_file_name)
