@@ -17,6 +17,7 @@ function [] = r_median(input_path, output_path)
         R = in_image(:,:,1);
 		G = in_image(:,:,2);
 		B = in_image(:,:,3);
+        out_image = in_image;
 		out_image(:,:,1) = medfilt2(R);
 		out_image(:,:,2) = medfilt2(G);
 		out_image(:,:,3) = medfilt2(B);
