@@ -1,7 +1,7 @@
 addpath("matlib")
-input_folders = dir(fullfile("../set*"));
+input_folders = dir(fullfile("../output/downscale_noise/set*"));
 
-output_path = "../output_median";
+output_path = "../output/downscale_noise_median";
 disp("Creating " + output_path);
 mkdir(output_path);
 
