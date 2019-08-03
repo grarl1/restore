@@ -7,6 +7,20 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 
+% Glossary
+\usepackage[acronym]{glossaries}
+\makenoidxglossaries
+
+% Acronyms
+\newacronym{sisr}{SISR}{single image super-resolution}
+\newacronym{hr}{HR}{high resolution}
+\newacronym{lr}{LR}{low resolution}
+\newacronym{cnn}{CNN}{convolutional neural network}
+\newacronym{fsrcnn}{FSRCNN}{Fast super-resolution convolutional neural network}
+\newacronym{ircnn}{IRCNN}{Image restoration convolutional neural network}
+\newacronym{psnr}{PSNR}{Peak Signal to Noise Ratio }
+\newacronym{ssim}{SSIM}{structural similarity}
+
 % For figures
 \usepackage{graphicx}
 
@@ -25,10 +39,8 @@
 
 % For bibliography
 \usepackage[backend=biber]{biblatex}
+\usepackage{csquotes}
 \addbibresource{references.bib}
-
-% TODO remove
-\usepackage{lipsum}
 
 \begin{document}
 
@@ -39,19 +51,21 @@
 	
 	\maketitle
 	
-	% TODO finish abstract
-	\abstract{Single image super-resolution and image denoising are two common tasks in low-level computer vision applications. Single image super-resolution is a classical problem that aims at recovering a high resolution image from a low resolution version of the same image. Image denoising is the process of estimating the clean and original version of an image from a noisy input. In this study we analyse the behaviour of two well-known methods for single image super-resolution and denoising, namely SRCNN [TODO reference] and IRCNN [TODO reference], applied in different order to noisy, low resolution inputs in order to evaluate their combined capability to super-resolve low resolution images with presence of Gaussian noise, Poisson noise and salt-and-pepper noise. As a result we conclude that [TODO] }
+	\abstract{We analyze the behavior of applying two well-known deep learning methods for single image super-resolution and image denoising, namely FSRCNN \cite{FSRCNN} and IRCNN \cite{IRCNN}, in different order to evaluate their combined capability to restore low resolution images with presence of noise. In order not to limit the case study to a single type of noise, Gaussian noise, Poisson noise, salt-and-pepper noise and uniform noise are applied to down-scaled images in order to construct the degraded images to be restored. As a result, we find that applying IRCNN before super-resolving the images with FSRCNN shows better results than using the networks in the opposite order for all types of noise. We also compare the quality achieved by using these deep learning methods in combination with other traditional methods. Experimental results show that FSRCNN and IRCNN achieve better restoration quality than when we use bicubic interpolation for super-resolution and median or wavelet filters for image denoising.
 	
-	% TODO keywords
 	\keywords{Single Image Super-Resolution, Image Denoising, Image Restoration, Convolutional Neural Networks.}\\~
 	
-	\textbf{Supervisors:} Ezequiel López Rubio, Rafael Marcos Luque Baena. 
+	\textbf{Supervisors:} Ezequiel López Rubio, Rafael Marcos Luque Baena.
 	
-	\input{sections/introduction.tex}
-	\input{sections/background.tex}
-	\input{sections/experiments.tex}
-	\input{sections/conclusions.tex}
+	\input{sections/1_introduction.tex}
+	\input{sections/2_background.tex}
+	\input{sections/3_design_implementation.tex}
+	\input{sections/4_experiments.tex}
+	\input{sections/5_conclusions.tex}
 	
 	\printbibliography
+	
+	\printnoidxglossary[type=acronym]
+	\printacronyms
 
 \end{document}

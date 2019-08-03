@@ -1,0 +1,23 @@
+\section{Introduction}
+
+\Gls{sisr} and image denoising are two common low-level tasks in the field of computer vision. \Gls{sisr} is a classical problem that aims to recover a \gls{hr} image from a given \gls{lr} version of the same image. This problem is ill-posed because a given \gls{lr} input can correspond to multiple \gls{hr} solutions and therefore reliable prior information is usually required to constraint the solution space \cite{DBLP:SISR} \cite{SRCNN} \cite{DBLP:DEEPSISR}. On the other hand, image denoising is the process of estimating the clean and original version of an image given a noisy input.
+
+\gls{sisr} and image denoising have received increasing attention by researches due to their multiple applications. The various methods that have been developed to tackle these two tasks can be broadly classified into two groups: traditional and deep learning methods. Deep learning methods, and more specifically those using \glspl{cnn}, have achieved promising results in terms of performance and quality restoration for both tasks \cite{DBLP:DEEPSISR} \cite{DBLP:DEEPNR}.
+
+However, applying \gls{sisr} and denoising methods in conjunction might produce undesired results if the presence of noise in the \gls{lr} images affects the learning process in the super-resolution task or, likewise, if the results of denoising an image degrades the quality of the super-resolution step. Therefore, this study aims to analyze which is the most efficient process to produce \gls{hr} images given \gls{lr} inputs with presence of different types of noise using deep learning methods based on \gls{cnn}.
+
+Among all the deep learning methods for \gls{sisr} and image denoising, experimental results using \gls{fsrcnn} \cite{FSRCNN} and \gls{ircnn} \cite{IRCNN} have demonstrated promising results and therefore we have selected them in order to perform the case study.
+
+Both networks have been trained using the same training and validation datasets (BSD200 \cite{BSDS}, General100 \cite{FSRCNN} and T91 \cite{T91}) and have been evaluated with Set5 \cite{SET5} and Set14 \cite{SET14} using \gls{psnr} and \gls{ssim} as quality metrics.
+
+Furthermore, we have also selected traditional methods for both super-resolution and image denoising in order to compare the efficiency of applying traditional and deep learning methods to tackle these low-level computer vision tasks. More specifically, we have used bicubic interpolation for \gls{sisr} and median and wavelet filtering for image denoising.
+
+The contribution of this study can be summarized as follows:
+\begin{itemize}
+	\item We perform an analysis on the application of  \gls{fsrcnn} and \gls{ircnn} in conjunction for tackling \gls{sisr} and image denoising tasks in order to restore \gls{lr} images with presence of different types of noise.
+	\item We provide an evaluation comparing traditional and deep learning \gls{sisr} and image denoising methods on two popular testing datasets (Set5, Set14).
+	\item We provide a Keras \cite{KERAS} implementation of \gls{fsrcnn} and \gls{ircnn} that can be used for both training and inference.
+	\item We discuss possible future directions for \gls{sisr}+denoising research studies.
+\end{itemize}
+
+The rest of the study is structured as follows:

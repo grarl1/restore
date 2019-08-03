@@ -1,7 +1,7 @@
 #!/bin/sh
 
 arg=${1:-.}
-exts="aux bbl blg brf idx ilg ind lof log lol lot out toc synctex.gz"
+exts="acn aux bbl bcf blg brf glo idx ilg ist ind lof log lol lot out run.xml toc synctex.gz"
 
 if [ -d $arg ]; then
     for ext in $exts; do
