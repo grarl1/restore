@@ -12,14 +12,19 @@
 \makenoidxglossaries
 
 % Acronyms
+\newacronym{dl}{DL}{Deep learning}
+\newacronym{relu}{ReLU}{Rectified Linear Unit}
+\newacronym{ann}{ANN}{artificial neural network}
 \newacronym{sisr}{SISR}{single image super-resolution}
 \newacronym{hr}{HR}{high resolution}
 \newacronym{lr}{LR}{low resolution}
 \newacronym{cnn}{CNN}{convolutional neural network}
-\newacronym{fsrcnn}{FSRCNN}{Fast super-resolution convolutional neural network}
-\newacronym{ircnn}{IRCNN}{Image restoration convolutional neural network}
-\newacronym{psnr}{PSNR}{Peak Signal to Noise Ratio }
+\newacronym{srcnn}{SRCNN}{Super-Resolution Convolutional Neural Network}
+\newacronym{fsrcnn}{FSRCNN}{Fast Super-Resolution Convolutional Neural Network}
+\newacronym{ircnn}{IRCNN}{Image Restoration Convolutional Neural Network}
+\newacronym{psnr}{PSNR}{Peak Signal to Noise Ratio}
 \newacronym{ssim}{SSIM}{structural similarity}
+\newacronym{gpu}{GPU}{graphics processing unit}
 
 % For figures
 \usepackage{graphicx}
@@ -59,12 +64,12 @@
 	
 	\input{sections/1_introduction.tex}
 	\input{sections/2_background.tex}
-	\input{sections/3_design_implementation.tex}
-	\input{sections/4_experiments.tex}
-	\input{sections/5_conclusions.tex}
+	\input{sections/3_deep_learning.tex}
+	\input{sections/4_experimental_design.tex}
+	\input{sections/5_experiments.tex}
+	\input{sections/6_conclusions.tex}
 	
 	\printbibliography
-	
 	\printnoidxglossary[type=acronym]
 	\printacronyms
 

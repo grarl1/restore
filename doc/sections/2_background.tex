@@ -1,1 +1,31 @@
-\section{Background}
+% !TeX spellcheck = en_US
+\section{Background}\label{sec:background}
+
+\subsection{Deep learning}
+\gls{dl} is a set of machine learning techniques that aim at learning representations of data with several levels of abstraction by using models with multiple processing layers \cite{DL2}. Most of the deep learning architectures are based on \glspl{ann} due to their hierarchical property \cite{DL1} \cite{DBLP:DEEPSISR}.
+
+These set of methods have been applied in multiple fields such as speech recognition, computer vision, genomics or natural language processing bringing important breakthroughs in many research areas. More specifically, \glspl{cnn} have had a relevant impact in the field of computer vision since they have achieved superior results in tasks like object recognition, video analysis, image classification or image restoration.
+
+\subsection{Convolutional Neural Networks}
+\gls{cnn} is a class of deep neural networks that has recently shown increasing popularity due to its success in natural language processing and computer vision fields.
+
+\glspl{cnn} are different from others \glspl{ann} in the sense that \glspl{cnn} uses the convolution operation instead of matrix multiplication to propagate the data.
+
+The architecture of a \glspl{cnn} varies depending on the task being performed, although they typically share:
+\begin{itemize}
+	\item An input layer that is a tensor with shape 
+	$(n, r, c, d)$, where $n$ is the number of images to be processed, $r$ is the number of rows of pixels or image height, $c$ is the number of columns of pixels or image width, and $d$ is the image depth or number of channels.
+	\item Multiple hidden layers that usually are convolutional layers that convolve their input with a set of filters producing a set of filtered images as a result that will be used for the next layer.
+	\item Activation layers that apply an activation function to the result of the hidden layer. In \gls{cnn}, the most commonly used activation function is \gls{relu}, since it has demonstrated to make convergence faster \cite{RELU}.
+\end{itemize}
+
+Depending on the task being carried out, the architecture can also present:
+\begin{itemize}
+	\item Pooling layers that shrink the image stack produced by the convolution layers. These typically consist of filters of a given size that are used to downsize the resulting matrix of the convolution layer. There are different types of pooling layers depending on the used pooling function. These usually are: max pooling and average pooling.
+	\item Fully connected layers 
+\end{itemize}
+
+
+\subsection{Single image super-resolution}
+
+\subsection{Noise reduction}
