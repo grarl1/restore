@@ -9,53 +9,64 @@ These set of methods have been applied in multiple fields such as speech recogni
 \subsection{Convolutional Neural Networks}
 \gls{cnn} is a class of deep neural networks that has recently shown increasing popularity due to its success in natural language processing and computer vision fields.
 
-\glspl{cnn} are different from others \glspl{ann} in the sense that \glspl{cnn} uses the convolution operation instead of matrix multiplication to propagate the data. This convolution operation is applied in the hidden layers of the \glspl{cnn} by convolutional layers.
+\glspl{cnn} are different from others \glspl{ann} in the sense that former uses the convolution operation instead of matrix multiplication to propagate the data. This convolution operation is applied in the hidden layers of the \glspl{cnn} by convolutional layers. Before introducing the convolutional layers, we present the concepts of convolution, padding and stride.
 
-Before introducing the convolutional layers, we present the concepts of convolution, padding and stride.
+\paragraph{Convolution.} 
 
-\subsubsection{Convolution, padding and stride}
-A convolution is a mathematical operation, usually denoted by the asterisk operator $\ast$, that transforms two functions, $f$ and $g$, in a third one, $f\ast g$ that represents the amount of overlap of $g$ as it is shifted over $f$.
+A \textbf{convolution} is a mathematical operation, usually denoted by the asterisk ($\ast$) operator, that transforms two functions, $f$ and $g$, in a third one, $f\ast g$, that represents the amount of overlap of $g$ as it is shifted over $f$.
 
-In image processing, an image is convolved with a convolution matrix (or kernel) by adding an image data point to its neighbors, that are weighted by the kernel. The latter is used as a sliding window that goes over the image being processed in order to compute all the values. Figure \ref{fig:convolution} shows a graphical representation of the described process, in which the image represented by the matrix $X$ is convolved by the kernel $w$ producing $y = X\ast w$.
+In image processing, an image is convolved with a convolution matrix, or kernel, by adding an image data point to its neighbors, that are weighted by the kernel. The kernel is used as a sliding window that traverses the image being processed in order to compute all the result values. Figure \ref{fig:convolution} shows a graphical representation of the described process.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/convolution.png}
-	\caption{Convolution of matrix $X$ with kernel $w$, producing $y = X\ast w$. Figure scanned from \cite{IMG:CONVOLUTION}.}
+	\caption{Convolution of a $4\times4$ matrix with a $3\times3$ matrix resulting in a $2\times2$ matrix.}
 	\label{fig:convolution}
 \end{figure}
 
+\paragraph{Padding.}
+As shown in Figure \ref{fig:convolution}, one of the effects observed when convolving an image with a kernel is that the resulting matrix has a smaller size than the input image. \textbf{Padding} solves this issue by adding extra values to the boundary of the original image so that its size is effectively increased and the result of the convolution has the same size as the original input.
+
+In convolution, when there is a need of increasing the size of the input data, zero-padding is typically used, meaning that the image is padded evenly by adding rows and columns of zeroes. If the right amount of zero-padding is used, this operation is known as \textbf{same} padding, since after the convolution, the output will keep the same spatial dimensions as its input. Figure \ref{fig:padding} shows an example of the application of same padding.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/padding.png}
+	\caption{Convolution with same padding. In the image, zero-padding is applied to a $3\times3$ matrix in order to have a $5\times5$ matrix as an input. The resulting input matrix is convolved with a $2\times2$ kernel producing a $3\times3$ output matrix.}
+	\label{fig:padding}
+\end{figure}
+
+On the other hand, when there is no padding applied to the input of the convolution, the kernel always stays at a valid position within the input matrix, producing that the output size shrinks depending on the kernel size. For this reason, this kind of padding can be called \textbf{valid} padding or no-padding. Figure \ref{fig:convolution} shows this behavior.
+
+\paragraph{Stride.}
+When an image is convolved with a kernel, the kernel is shifted over the image in order to compute each cell value of the output matrix. In figures \ref{fig:convolution} and \ref{fig:padding}, we slide the kernel one cell at a time, however, the number of pixels traversed per slide can be different that one. This number is called \textbf{stride}, and it represents the number of cells that the kernel matrix is shifted over the input matrix in order to compute the next output cell value.
+
 \subsubsection*{Convolutional layers}
 Convolutional layers take matrices with dimensions $(w_1, h_1, c_1)$ that represent input images with width $w_1$, height $h_1$ and $c_1$ channels. This matrices are convolved with $k$ filters of size $f$, producing an output matrix with dimensions $(w_2, h_2, c_2)$, with:
+
 \begin{itemize}
-	\item $r_2 = \frac{r_1 - f + 2p}{s} + 1$
-	\item $c_2 = \frac{c_2 - f + 2p}{s} + 1$
-	\item $d_2 = k$
+	\item $w_2 = \frac{w_1 - f + 2p}{s} + 1$
+	\item $h_2 = \frac{h_2 - f + 2p}{s} + 1$
+	\item $c_2 = k$
 \end{itemize}
-where $p$ is the the amount of zero-padding used and $s$ is the value of the stride \cite{STANFORD}.
-
-When there is a need to increase the size of the input data, typically zero-padding is used, meaning that the image is padded evenly by adding rows and columns of zeroes.
-If the right amount of zero-padding is used, this type of padding is known as \textbf{same} padding, since after the convolution operation, the layer's output will keep the same spatial dimensions as its input.
-
-On the other hand, when there is no padding applied to the input of the convolution layer, the filter window always stays at a valid position within the input matrix, producing that the output size shrinks depending on the filter size $f$. For this reason, this kind of padding is called \textbf{valid} padding.
+where $p$ is the the amount of zero-padding used and $s$ is the value of the stride \cite{STANFORD}. It is worth noting that the third dimension of the output is given by the amount of filter used, no matter what the input's third dimension is.
 
 \subsubsection*{Architecture of CNNs}
-
-The architecture of a \glspl{cnn} varies depending on the task being performed, although they typically share:
+The architecture of a \gls{cnn} varies depending on the task being performed, although all architectures typically share:
 \begin{itemize}
-	\item An input layer that is a tensor with shape 
+	\item An \textbf{input layer} that is a tensor with shape 
 	$(n, r, c, d)$, where $n$ is the number of images to be processed, $r$ is the number of rows of pixels or image height, $c$ is the number of columns of pixels or image width, and $d$ is the image depth or number of channels.
-	\item Multiple hidden layers that usually are convolutional layers that convolve their input with a set of $k$ filters producing a set of filtered images as a result that will be used as the input of the next layer.
-	\item Activation layers that apply an activation function to the result of the hidden layer. In \gls{cnn}, the most commonly used activation function is \gls{relu}, since it has demonstrated to make convergence faster \cite{RELU}.
+	\item Multiple \textbf{hidden layers}, usually convolutional layers, that convolve their input with a set of $k$ filters, producing a set of filtered images as a result that will be used as the input of the next layer.
+	\item \textbf{Activation layers} that apply an activation function to the result of the hidden layer. In \gls{cnn}, the most commonly used activation function is \gls{relu}, since it has demonstrated to make convergence faster \cite{RELU}.
 \end{itemize}
 
 Depending on the task being carried out, the architecture can also present:
 \begin{itemize}
-	\item Pooling layers that shrink the image stack produced by the convolution layers. These typically consist of filters of a given size that are used to downsize the resulting matrix of the convolution layer. There are different types of pooling layers depending on the used pooling function. These usually are: max pooling and average pooling.
-	\item Fully connected layers that will compute the class scores. Each neuron in these layers is connected to all the outputs of the previous layer. s
+	\item \textbf{Pooling layers}, that shrink the image stack produced by the convolution layers. These typically consist of filters of a given size that are used to downsize the resulting matrix of the convolution layer. There are different types of pooling layers depending on the used pooling function. These usually are: max pooling and average pooling.
+	\item \textbf{Fully connected layers}, that will compute the class scores. Each neuron in these layers is connected to all the outputs of the previous layer.
 \end{itemize}
 
-
 \subsection{Single image super-resolution}
+\gls{sisr} is a low-level computer vision task that aims at obtaining a \gls{hr} image from an input \gls{lr} image. 
 
 \subsection{Noise reduction}
