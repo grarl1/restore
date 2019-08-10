@@ -39,7 +39,7 @@ In convolution, when there is a need of increasing the size of the input data, z
 On the other hand, when there is no padding applied to the input of the convolution, the kernel always stays at a valid position within the input matrix, producing that the output size shrinks depending on the kernel size. For this reason, this kind of padding can be called \textbf{valid} padding or no-padding. Figure \ref{fig:convolution} shows this behavior.
 
 \paragraph{Stride.}
-When an image is convolved with a kernel, the kernel is shifted over the image in order to compute each cell value of the output matrix. In figures \ref{fig:convolution} and \ref{fig:padding}, we slide the kernel one cell at a time, however, the number of pixels traversed per slide can be different that one. This number is called \textbf{stride}, and it represents the number of cells that the kernel matrix is shifted over the input matrix in order to compute the next output cell value.
+When an image is convolved with a kernel, the kernel is shifted over the image in order to compute each cell value of the output matrix. In figures \ref{fig:convolution} and \ref{fig:padding}, we slide the kernel 1 cell at a time, however, the number of pixels traversed per slide can be different that 1. This number is called \textbf{stride}, and it represents the number of cells that the kernel matrix is shifted over the input matrix in order to compute the next output cell value.
 
 \subsubsection*{Convolutional layers}
 Convolutional layers take matrices with dimensions $(w_1, h_1, c_1)$ that represent input images with width $w_1$, height $h_1$ and $c_1$ channels. This matrices are convolved with $k$ filters of size $f$, producing an output matrix with dimensions $(w_2, h_2, c_2)$, with:
@@ -67,6 +67,45 @@ Depending on the task being carried out, the architecture can also present:
 \end{itemize}
 
 \subsection{Single image super-resolution}
-\gls{sisr} is a low-level computer vision task that aims at obtaining a \gls{hr} image from an input \gls{lr} image. 
 
-\subsection{Noise reduction}
+\gls{sisr} is a low-level computer vision task that aims at obtaining a \gls{hr} image from an input \gls{lr} image. This problem can be modeled as follows:
+$$y = \Phi(x, \theta_\eta)$$
+where $y$ is the \gls{lr} image we want to super-resolve, $x$ is the original \gls{hr} image, and $\Phi(x, \theta_\eta)$ denotes the application of a degradation function $\Phi$ to $x$ using the degradation parameters $\theta_\eta$ \cite{DBLP:SISR}. 
+
+Since this degradation process is not known and can be affected by multiple factors such as noise or blur, we can also model the \gls{sisr} problem as follows:
+
+$$y = (x\otimes k)\downarrow_s + n$$
+
+where $(x\otimes k)$ denotes a convolution of the original \gls{hr} image with a blurry kernel $k$, $\downarrow_s$ denotes a downsampling operation with scale factor $s$ and $n$ represents the independent noise term.
+
+\gls{sisr} aims at recovering an approximation of $x$ given given the image $y$, however, it is an ill-posed problem due to the fact that a given \gls{lr} image can correspond to multiple \gls{hr} solutions. \cite{DBLP:DEEPSISR}.
+
+\subsection{Image denoising}
+Image denoising or noise reduction is as well a low-level computer vision task that aims at removing the noise from a given image. 
+
+Noise is a random signal in digital images that destroy part of the image information by altering the pixel values. This signals are typically produced by the sensors or electronic circuitry used to obtain the images.
+
+There are multiple types of image noise, such as Gaussian noise, salt-and-pepper noise, speckle noise, quantization noise, Poisson noise, etc. \cite{NOISE}.
+
+We introduce the 4 types of noises we have selected to perform the experiments, namely Gaussian noise, Poisson noise, salt-and-pepper noise and uniform noise. \
+
+\paragraph{Gaussian noise}
+Gaussian noise, also called electronic noise, is a type of noise caused by natural sources such as the illumination or the temperature of the sensor. This noise can be modeled as an additive matrix whose values are independent and identically distributed and follow a normal distribution with mean $\mu$ and standard deviation $\sigma$.
+
+\paragraph{Poisson noise}
+Poisson noise or shot noise arises because of the discrete nature of the electric charge and it's the dominant noise in the darker parts of the image. Shot noise follows a Poisson distribution.
+
+Is worth mentioning that, apart from the followed distribution, the fundamental difference between Gaussian noise and Poisson noise is that Gaussian noise is additive and Poisson noise is signal dependent. As a result, Poisson noise does not approximate to a Gaussian distribution at low intensity levels.
+
+\paragraph{Salt-and-pepper noise}
+Salt-and-pepper noise or impulse value noise is a type of noise that, unlike Gaussian and Poisson noise, completely destroys the information held by part of the image. 
+
+This noise is seen it data transmission and it replaces the corrupted pixels by the minimum or maximum possible value that the pixel can have. In 8-bits images, the minimum value corresponds to 0 and the maximum value, to 255.
+
+The amount of salt-and-pepper noise that a image has is known as noise ratio. An image with a noise ratio of 0 has no salt-and-pepper noise, whereas an image with a noise ratio of 1 has all its pixels affected by the noise.
+
+\paragraph{Uniform noise}
+Uniform noise or quantization is typically caused by the quantization process when converting analog to digital images and it follows an uniform distribution. 
+
+Like salt-and-pepper noise, uniform noise completely destroys the information of part of the image. The amount of uniform noise hat an image has is also described with the mentioned concept of noise ratio.
+
