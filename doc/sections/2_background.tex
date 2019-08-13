@@ -87,7 +87,7 @@ Noise is a random signal in digital images that destroy part of the image inform
 
 There are multiple types of image noise, such as Gaussian noise, salt-and-pepper noise, speckle noise, quantization noise, Poisson noise, etc. \cite{NOISE}.
 
-We introduce the 4 types of noises we have selected to perform the experiments, namely Gaussian noise, Poisson noise, salt-and-pepper noise and uniform noise. \
+We introduce the 4 types of noises we have selected to perform the experiments, namely Gaussian noise, Poisson noise, salt-and-pepper noise and uniform noise. Figure \ref{fig:noises} shows an example of these types of noise.
 
 \paragraph{Gaussian noise}
 Gaussian noise, also called electronic noise, is a type of noise caused by natural sources such as the illumination or the temperature of the sensor. This noise can be modeled as an additive matrix whose values are independent and identically distributed and follow a normal distribution with mean $\mu$ and standard deviation $\sigma$.
@@ -109,3 +109,28 @@ Uniform noise or quantization is typically caused by the quantization process wh
 
 Like salt-and-pepper noise, uniform noise completely destroys the information of part of the image. The amount of uniform noise hat an image has is also described with the mentioned concept of noise ratio.
 
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/noises/lenna.png}
+		\caption{Original image}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/noises/gaussian.png}
+		\caption{Gaussian noise.}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/noises/poisson.png}
+		\caption{Poisson noise}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/noises/sp.png}
+		\caption{Salt-and-pepper noise.}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/noises/uniform.png}
+		\caption{Uniform noise.}
+	\end{subfigure}
+    \caption{Image noises. Gaussian noise is applied with $\mu = 0$ and $\sigma = 0.05$. Salt-and-pepper and uniform noise are applied with a noise ratio of $0.1$, which affects approximately 10\% of the pixels.}
+	\label{fig:noises}
+\end{figure}
