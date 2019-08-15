@@ -44,15 +44,73 @@ In \cite{DILATED}, Wang et al. present a dilated residual \gls{cnn} for Gaussian
 \subsection{FSRCNN and IRCNN}
 In this subsection, we review the structure of the two \glspl{cnn} used in this study: \gls{fsrcnn} and \gls{ircnn}.
 
-\subsubsection{FSRCNN} The structure of \gls{fsrcnn} is composed of 5 different layers, 4 convolution layers and a deconvolution layer:
+\subsubsection{FSRCNN} The structure of \gls{fsrcnn} is composed of 5 different parts. The first four are made up of convolution layers and the last one is a deconvolution layer.
+
 \begin{itemize}
 	\item \textbf{Feature extraction}. This operation extracts overlapping patches from the \gls{lr} input by convolving them with a set of $d$ filters that represent each patch as a high dimensional feature vector. The size of the filters proposed by the authors for this layer is $5$. On the other hand, the input number of channels is $1$.
+	
 	\item \textbf{Shrinking}. A shrinking layer is added after the feature extraction in order to reduce the \gls{lr} feature dimension by convolving the \gls{lr} features with $s$ filters of size $1$. With this filter size, linear combinations applied in the  \gls{lr} feature space reduce its dimension from $d$ to $s$, decreasing as well the number of parameters and therefore the computational cost.
-	\item \textbf{Non-linear mapping}. 
-	\item Expanding:
-	\item Deconvolution:
+	
+	\item \textbf{Non-linear mapping}. This operation maps each high-dimensional feature vector onto another high-dimensional feature vector by applying $m$ convolution layers with $s$ filters of size $3$. The resulting vectors represent the \gls{hr} version of the extracted patches.
+	
+	\item \textbf{Expanding}. A expanding layer is added after the non-linear mapping process in order to expand the \gls{hr} feature dimension that was previously reduced by the shrinking layer. Since this operation acts as the inverse process of the shrinking step, $d$ filters of size $1$ are applied in order to perform the expansion.
+	
+	\item \textbf{Deconvolution}. The last step in the process consists of applying a deconvolution layer in order to perform the upsampling operation and the aggregation of the features. This layer applies $1$ deconvolution filter of size $9$ using the upscale factor as the deconvolution stride in order to directly produce the \gls{hr} image as an output.
 \end{itemize}
 
-Following the notation proposed in \cite{fsrcnn}, we denote the convolution layers as $Conv(f_i, n_i, c_i)$ and the deconvolution layer as $DeConv(f_i, n_i, c_i)$ where $f_i$ is the size of the filter, $n_i$ is the number of filters and $c_i$ is the number of channels in the $i-th$ layer.
+The described architecture is shown in Figure \ref{fig:fsrcnn}.
 
-\subsubsection{IRCNN}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/fsrcnn.png}
+	\caption{Structure of \gls{fsrcnn}}
+	\label{fig:fsrcnn}
+\end{figure}
+
+Following the notation proposed in \cite{FSRCNN}, we denote the convolution layers as $Conv(f_i, n_i, c_i)$ and the deconvolution layer as $DeConv(f_i, n_i, c_i)$ where $f_i$ is the size of the filter, $n_i$ is the number of filters and $c_i$ is the number of channels in the $i-th$ layer. Using this notation, we can describe the structure as:
+
+\begin{flalign}
+\nonumber\text{LR image} \rightarrow & \underbrace{Conv(5,d,1) + PReLU}_{\text{Feature extraction}} \rightarrow \underbrace{Conv(1, s, d) + PReLU}_{\text{Shrinking}} \\\nonumber
+\rightarrow & \underbrace{m\times\left(Conv(3,s,s) + PReLU\right)}_{\text{Non-linear mapping}} \rightarrow \underbrace{Conv(1,d,s) + PReLU}_{\text{Expanding}} \\\nonumber
+\rightarrow & DeConv(9,1,d) \rightarrow \text{HR image}
+\end{flalign}
+
+Where \gls{prelu} \cite{PRELU} is the activation function used. With this structure, there are three variables that need to be chosen and they will directly affect the performance of the network: the mapping depth $m$, the \gls{lr} feature dimension $d$ and the number of shrinking filters $s$.
+
+\subsubsection{IRCNN} The structure of \gls{ircnn} consists of seven different convolutional layers divided in three parts:
+\begin{itemize}
+	\item The first layer is a convolution layer with 64 filters of size $3$ that uses \gls{relu} as the activation function.
+	\item The following 5 layers are dilated convolution layers with 64 filters of size $3$ that use batch normalization \cite{BATCHNORM} in order to accelerate the training and improve its stability and \gls{relu} as the activation function. 
+	
+	The dilated convolution layers apply dilated convolution operations in order to capture the context information. The dilation factors of the dilated convolution layers are 2, 3, 4, 3 and 2 respectively. Figure \ref{fig:dilated} shows an example of a dilated convolution with a dilation factor of 2
+	
+	\item The last layer is a convolution layer with $c$ filters of size $3$, where $c$ is the output depth.
+\end{itemize}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/dilated.png}
+	\caption{Dilated convolution of a $5\times5$ matrix with a $2\times2$ kernel using a dilation factor of 2. The operation results in a $3\times3$ matrix.}
+	\label{fig:dilated}
+\end{figure}
+
+The described architecture is shown in Figure \ref{fig:ircnn}. In the figure, the output of the network is the residual image, that represents the noise to be removed.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/ircnn.png}
+	\caption{Structure of \gls{ircnn}}
+	\label{fig:ircnn}
+\end{figure}
+
+Following the notation described above, we represent a the dilated convolution layers as $DConv_{d_i}(f_i, n_i, c_i)$  where $d$ is the dilation factor, $f_i$ is the size of the filter, $n_i$ is the number of filters and $c_i$ is the number of channels in the $i-th$ layer.
+
+\begin{flalign}
+	\nonumber\text{LR image} \rightarrow & DConv_1(3,64,c)\\\nonumber
+		\rightarrow & DConv_2(3,64,64) + BatchNorm + ReLU
+		\rightarrow DConv_3(3,64,64) + BatchNorm + ReLU\\\nonumber
+		\rightarrow & DConv_4(3,64,64) + BatchNorm + ReLU
+		\rightarrow DConv_3(3,64,64) + BatchNorm + ReLU\\\nonumber
+		\rightarrow & DConv_2(3,64,64) + BatchNorm + ReLU
+		\rightarrow DConv_1(3,c,64) \rightarrow \text{Residual Image}
+\end{flalign}
