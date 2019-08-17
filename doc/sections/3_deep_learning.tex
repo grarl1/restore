@@ -46,6 +46,13 @@ In this subsection, we review the structure of the two \glspl{cnn} used in this 
 
 \subsubsection{FSRCNN} The structure of \gls{fsrcnn} is composed of 5 different parts. The first four are made up of convolution layers and the last one is a deconvolution layer.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/fsrcnn.png}
+	\caption{Structure of \gls{fsrcnn}}
+	\label{fig:fsrcnn}
+\end{figure}
+
 \begin{itemize}
 	\item \textbf{Feature extraction}. This operation extracts overlapping patches from the \gls{lr} input by convolving them with a set of $d$ filters that represent each patch as a high dimensional feature vector. The size of the filters proposed by the authors for this layer is $5$. On the other hand, the input number of channels is $1$.
 	
@@ -60,13 +67,6 @@ In this subsection, we review the structure of the two \glspl{cnn} used in this 
 
 The described architecture is shown in Figure \ref{fig:fsrcnn}.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.7\textwidth]{images/fsrcnn.png}
-	\caption{Structure of \gls{fsrcnn}}
-	\label{fig:fsrcnn}
-\end{figure}
-
 Following the notation proposed in \cite{FSRCNN}, we denote the convolution layers as $Conv(f_i, n_i, c_i)$ and the deconvolution layer as $DeConv(f_i, n_i, c_i)$ where $f_i$ is the size of the filter, $n_i$ is the number of filters and $c_i$ is the number of channels in the $i-th$ layer. Using this notation, we can describe the structure as:
 
 \begin{flalign}
@@ -77,7 +77,16 @@ Following the notation proposed in \cite{FSRCNN}, we denote the convolution laye
 
 Where \gls{prelu} \cite{PRELU} is the activation function used. With this structure, there are three variables that need to be chosen and they will directly affect the performance of the network: the mapping depth $m$, the \gls{lr} feature dimension $d$ and the number of shrinking filters $s$.
 
-\subsubsection{IRCNN} The structure of \gls{ircnn} consists of seven different convolutional layers divided in three parts:
+\subsubsection{IRCNN} The structure of \gls{ircnn} consists of seven different convolutional layers divided in three parts.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/ircnn.png}
+	\caption{Structure of \gls{ircnn}}
+	\label{fig:ircnn}
+\end{figure}
+
+
 \begin{itemize}
 	\item The first layer is a convolution layer with 64 filters of size $3$ that uses \gls{relu} as the activation function.
 	\item The following 5 layers are dilated convolution layers with 64 filters of size $3$ that use batch normalization \cite{BATCHNORM} in order to accelerate the training and improve its stability and \gls{relu} as the activation function. 
@@ -87,7 +96,7 @@ Where \gls{prelu} \cite{PRELU} is the activation function used. With this struct
 	\item The last layer is a convolution layer with $c$ filters of size $3$, where $c$ is the output depth.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/dilated.png}
 	\caption{Dilated convolution of a $5\times5$ matrix with a $2\times2$ kernel using a dilation factor of 2. The operation results in a $3\times3$ matrix.}
@@ -95,13 +104,6 @@ Where \gls{prelu} \cite{PRELU} is the activation function used. With this struct
 \end{figure}
 
 The described architecture is shown in Figure \ref{fig:ircnn}. In the figure, the output of the network is the residual image, that represents the noise to be removed.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.7\textwidth]{images/ircnn.png}
-	\caption{Structure of \gls{ircnn}}
-	\label{fig:ircnn}
-\end{figure}
 
 Following the notation described above, we represent a the dilated convolution layers as $DConv_{d_i}(f_i, n_i, c_i)$  where $d$ is the dilation factor, $f_i$ is the size of the filter, $n_i$ is the number of filters and $c_i$ is the number of channels in the $i-th$ layer.
 

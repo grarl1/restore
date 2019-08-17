@@ -55,7 +55,7 @@ where $p$ is the the amount of zero-padding used and $s$ is the value of the str
 The architecture of a \gls{cnn} varies depending on the task being performed, although all architectures typically share:
 \begin{itemize}
 	\item An \textbf{input layer} that is a tensor with shape 
-	$(n, r, c, d)$, where $n$ is the number of images to be processed, $r$ is the number of rows of pixels or image height, $c$ is the number of columns of pixels or image width, and $d$ is the image depth or number of channels.
+	$(n, h, w, c)$, where $n$ is the number of images to be processed, $w$ is the number of columns of pixels or image width, $h$ is the number of rows of pixels or image height, and $c$ is the image depth or number of channels. This data format is represented with the acronym for \gls{nhwc}. A common alternative is to use \gls{nchw}.
 	\item Multiple \textbf{hidden layers}, usually convolutional layers, that convolve their input with a set of $k$ filters, producing a set of filtered images as a result that will be used as the input of the next layer.
 	\item \textbf{Activation layers} that apply an activation function to the result of the hidden layer. In \gls{cnn}, the most commonly used activation function is \gls{relu}, since it has demonstrated to make convergence faster \cite{RELU}.
 \end{itemize}
