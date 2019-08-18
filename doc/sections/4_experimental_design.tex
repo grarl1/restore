@@ -48,7 +48,11 @@ A last pre-processing step is applied to the training and validation images depe
 	\end{itemize}
 \end{itemize}
 
-\subsection{Training strategy and results}
+\subsection{Training hardware, strategy and results}
+\paragraph{Training hardware}
+The training has been carried out in a server running Ubuntu 18.04 LTS with a Nvidia Geforce GTX 1060 with compute capability of $6.1$. Most of the development has been done in a different machine with the same \gls{os} and a Nvidia Geforce GT 730M with compute capability of $3.5$.
+
+\paragraph{Training strategy}
 The training strategy adopted for \gls{fsrcnn} and \gls{ircnn} is common for both cases except for the used learning rates.
 
 \begin{itemize}
@@ -108,5 +112,22 @@ In earlier experiments, the training was stopping at this stage after 25 epochs 
 \subsection{Set of experiments}
 We have carried out the following set of experiments using Set5 \cite{SET5} and Set14 \cite{SET14} as test datasets:
 \begin{itemize}
-	\item 
+	\item \textbf{Expermient 1.1}: Evaluation of \gls{fsrcnn} $+$ \gls{ircnn} on Set5 and Set14.
+	\item \textbf{Experiment 1.2}: Evaluation of \gls{ircnn} $+$ \gls{fsrcnn} on Set5 and Set14.
 \end{itemize}
+
+The aim of these two experiments is to get to know which combination performs better on the given noisy images.
+
+Apart from these and given their results, we also perform the following experiments in order to evaluate the performance of the deep learning methods compared to the selected traditional methods. This set of experiments use a deep learning method and a traditional method for either \gls{sisr} or image denoising:
+\begin{itemize}
+	\item \textbf{Experiment 2.1}: Evaluation of \gls{ircnn} $+$ bicubic interpolation.
+	\item \textbf{Experiment 2.2}: Evaluation of wavelet denoiser $+$ \gls{fsrcnn}.
+	\item \textbf{Experiment 2.3}: Evaluation of median filter $+$ \gls{fsrcnn}.
+\end{itemize}
+
+Finally, the following set of experiments is carried out to have a benchmark based purely on traditional algorithms:
+\begin{itemize}
+\item \textbf{Experiment 3.1}:  Evaluation of wavelet denoiser $+$ bicubic interpolation.
+\item \textbf{Experiment 3.2}:  Evaluation of median filter $+$ bicubic interpolation.
+\end{itemize}
+All these experiments are carried out using \gls{psnr} and \gls{ssim} as quality metrics.

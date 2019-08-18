@@ -1,3 +1,306 @@
+% !TeX spellcheck = en_US
 \section{Experiments}\label{sec:experiments}
-hw details
+In this section we present the results of all the experiments described above. 
 
+All the evaluations are performed using Set5 \cite{SET5} and Set14 \cite{SET14} datasets.
+
+First, all the images in Set5 and Set14 are downscaled using Lanczos interpolation with a scale factor of 2. Second, we apply one of the following noise types varying the noise parameters in order to enlarge the test set:
+\begin{itemize}
+	\item Gaussian noise is applied using $\mu=0$ and $\sigma = 0.05, \sigma = 0.10$ and $\sigma = 0.15$.
+	\item Poisson noise is applied using input pixels values as means of Poisson distributions scaled up by $2^8$.
+	\item Salt-and-pepper and uniform noise is applied using noise ratios of $0.05, 0.10, 0.15$ and $0.20$.
+\end{itemize}
+
+For the experiments that make use of median filter and wavelet denoiser, we apply the \textsc{matlab} functions \texttt{medfilt2()} and \texttt{wdenoise2()}.
+
+In order to perform the evaluation of the quality metrics, the \textsc{matlab} functions \texttt{psnr()} and \texttt{ssim()} have been used.
+
+\subsection{Experiments results}
+
+\subsubsection{Experiment 1.1}
+In this experiment, we evaluate \gls{fsrcnn} $+$ \gls{ircnn} on Set5 and Set14.
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 26.6621 & 0.8639 & 25.1018 & 0.8065 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.10$ & 21.5502 & 0.7024 & 20.6851 & 0.6294 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}Gaussian} & $\mu=0, \sigma=0.15$ & 18.4371 & 0.5669 & 17.7753 & 0.4954 \\
+		\rowcolor[HTML]{EFEFEF} 
+		Poisson & $peak=2^8$ & 27.9000 & 0.9074 & 25.9664 & 0.8401 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 22.1321 & 0.7678 & 21.1879 & 0.6994 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 18.6522 & 0.6218 & 18.0292 & 0.5487 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 16.4730 & 0.5141 & 16.0007 & 0.4431 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Salt-and-pepper} & $r=0.20$ & 14.9244 & 0.4320 & 14.5495 & 0.3670 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 24.3520 & 0.8135 & 23.4238 & 0.7688 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 20.9578 & 0.7032 & 20.5673 & 0.6542 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 18.7674 & 0.6155 & 18.6073 & 0.5642 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 17.1090 & 0.5410 & 17.1459 & 0.4914 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{All} &  & \textbf{20.6598} & \textbf{0.6708} & \textbf{19.9200} & \textbf{0.6090}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 1.1}
+	\label{tab:experiment11}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 29.4125 & 0.9055 & 27.1441 & 0.8704 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.10$ & 27.3907 & 0.8825 & 25.6060 & 0.8255 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}Gaussian} & $\mu=0, \sigma=0.15$ & 26.0656 & 0.8709 & 24.4851 & 0.7896 \\
+		\rowcolor[HTML]{EFEFEF} 
+		Poisson & $peak=2^8$ & 30.1634 & 0.9314 & 27.5250 & 0.8855 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 32.3303 & 0.9585 & 28.8342 & 0.9176 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 31.8659 & 0.9498 & 28.5673 & 0.9119 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 31.3457 & 0.9453 & 28.2604 & 0.9067 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Salt-and-pepper} & $r=0.20$ & 30.6621 & 0.9395 & 27.8548 & 0.8990 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 32.2225 & 0.9559 & 28.7999 & 0.9160 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 31.5749 & 0.9459 & 28.4277 & 0.9089 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 30.8047 & 0.9390 & 27.9306 & 0.8999 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 29.8574 & 0.9319 & 27.2938 & 0.8875 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{All} &  & \textbf{30.3080} & \textbf{0.9297} & \textbf{27.5607} & \textbf{0.8849}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 1.2}
+	\label{tab:experiment12}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 29.1069 & 0.9188 & 26.7379 & 0.8608 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.10$ & 27.3585 & 0.8963 & 25.4602 & 0.8206 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}Gaussian} & $\mu=0, \sigma=0.15$ & 26.1240 & 0.8824 & 24.4524 & 0.7874 \\
+		\rowcolor[HTML]{EFEFEF} 
+		Poisson & $peak=2^8$ & 29.7801 & 0.9419 & 27.0475 & 0.8742 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 31.2225 & 0.9585 & 27.9022 & 0.8994 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 30.9084 & 0.9538 & 27.7169 & 0.8953 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 30.5699 & 0.9503 & 27.5133 & 0.8908 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Salt-and-pepper} & $r=0.20$ & 30.1156 & 0.9454 & 27.2382 & 0.8842 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 31.1893 & 0.9577 & 27.8885 & 0.8988 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 30.7560 & 0.9519 & 27.6282 & 0.8933 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 30.2349 & 0.9463 & 27.2898 & 0.8858 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 29.5822 & 0.9393 & 26.8459 & 0.8753 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{All} &  & \textbf{29.7457} & \textbf{0.9369} & \textbf{26.9767} & \textbf{0.8722}
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 2.1}
+	\label{tab:experiment21}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 27.8830 & 0.9132 & 25.8943 & 0.8294 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.10$ & 25.0741 & 0.8574 & 23.6262 & 0.7520 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}Gaussian} & $\mu=0, \sigma=0.15$ & 23.2414 & 0.8060 & 22.2485 & 0.7009 \\
+		\rowcolor[HTML]{EFEFEF} 
+		Poisson & $peak=2^8$ & 28.6318 & 0.9219 & 26.4398 & 0.8493 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 19.7492 & 0.6890 & 19.8054 & 0.6197 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 19.3873 & 0.6486 & 19.4879 & 0.5753 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 19.2579 & 0.6496 & 19.3416 & 0.5734 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Salt-and-pepper} & $r=0.20$ & 18.8251 & 0.6435 & 18.9623 & 0.5686 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 22.0364 & 0.7589 & 21.8637 & 0.7057 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 20.8710 & 0.7059 & 20.7881 & 0.6402 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 20.1205 & 0.6836 & 20.1378 & 0.6124 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 19.3803 & 0.6659 & 19.5532 & 0.5959 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{All} &  & \textbf{22.0382} & \textbf{0.7453} & \textbf{21.5124} & \textbf{0.6686}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 2.2}
+	\label{tab:experiment22}
+\end{table}
+
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 25.9872 & 0.8739 & 23.9859 & 0.7578 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.10$ & 23.9557 & 0.8044 & 22.5017 & 0.6852 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}Gaussian} & $\mu=0, \sigma=0.15$ & 22.0852 & 0.7334 & 20.9973 & 0.6142 \\
+		\rowcolor[HTML]{EFEFEF} 
+		Poisson & $peak=2^8$ & 26.2772 & 0.8925 & 24.1578 & 0.7690 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 26.8715 & 0.9165 & 24.5762 & 0.7983 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 26.0928 & 0.9069 & 24.0433 & 0.7888 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 25.1191 & 0.8942 & 23.3845 & 0.7751 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Salt-and-pepper} & $r=0.20$ & 23.8783 & 0.8750 & 22.5070 & 0.7551 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 26.9496 & 0.9171 & 24.6094 & 0.7979 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 26.2939 & 0.9076 & 24.2091 & 0.7878 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 25.5000 & 0.8921 & 23.6985 & 0.7726 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 24.4354 & 0.8651 & 23.0633 & 0.7503 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{All} &  & \textbf{25.2872} & \textbf{0.8732} & \textbf{23.4778} & \textbf{0.7543}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 2.3}
+	\label{tab:experiment23}
+\end{table}
+
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 27.8760 & 0.9116 & 25.8165 & 0.8244 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.10$ & 25.2040 & 0.8553 & 23.7390 & 0.7520 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}Gaussian} & $\mu=0, \sigma=0.15$ & 23.3125 & 0.8046 & 22.3406 & 0.7016 \\
+		\rowcolor[HTML]{EFEFEF} 
+		Poisson & $peak=2^8$ & 28.7267 & 0.9298 & 26.3338 & 0.8453 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 20.8489 & 0.7180 & 20.8049 & 0.6445 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 20.0257 & 0.6657 & 20.0924 & 0.5918 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 19.5516 & 0.6569 & 19.6361 & 0.5817 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Salt-and-pepper} & $r=0.20$ & 18.9040 & 0.6454 & 19.0571 & 0.5714 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 22.9494 & 0.7780 & 22.6777 & 0.7204 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 21.4818 & 0.7196 & 21.3892 & 0.6547 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 20.4685 & 0.6920 & 20.5239 & 0.6233 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 19.5550 & 0.6708 & 19.7700 & 0.6028 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{All} &  & \textbf{22.4087} & \textbf{0.7540} & \textbf{21.8485} & \textbf{0.6762}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 3.1}
+	\label{tab:experiment31}
+\end{table}
+
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 26.2755 & 0.8812 & 24.2264 & 0.7663 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.10$ & 24.2735 & 0.8134 & 22.8012 & 0.6979 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\multirow{-3}{*}{\cellcolor[HTML]{EFEFEF}Gaussian} & $\mu=0, \sigma=0.15$ & 22.4366 & 0.7452 & 21.3403 & 0.6299 \\
+		\rowcolor[HTML]{EFEFEF} 
+		Poisson & $peak=2^8$ & 26.6459 & 0.9059 & 24.4262 & 0.7795 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 27.1121 & 0.9209 & 24.7449 & 0.8034 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 26.3782 & 0.9123 & 24.2646 & 0.7950 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 25.4810 & 0.9009 & 23.6647 & 0.7829 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Salt-and-pepper} & $r=0.20$ & 24.3109 & 0.8836 & 22.8559 & 0.7650 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.05$ & 27.1583 & 0.9208 & 24.7666 & 0.8026 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.10$ & 26.5295 & 0.9116 & 24.3931 & 0.7933 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} & $r=0.15$ & 25.7746 & 0.8967 & 23.9241 & 0.7793 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 24.7671 & 0.8715 & 23.3377 & 0.7590 \\
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{All} &  & \textbf{25.5953} & \textbf{0.8803} & \textbf{23.7288} & \textbf{0.7628}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 3.2}
+	\label{tab:experiment32}
+\end{table}
+
+
+
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		 \multicolumn{1}{|c}{\cellcolor[HTML]{EFEFEF}\textbf{Method}} &
+		 \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\gls{fsrcnn} & 33.9226 & 0.9733 & 29.8034 & 0.9304\\
+		\rowcolor[HTML]{EFEFEF} 
+		Bicubic Interpolation & 32.2347 & 0.9677 & 28.6030 & 0.9115\\\hline
+		\textbf{\gls{fsrcnn} - Bicubic} & \textbf{+1.6879} & \textbf{+0.0056} & \textbf{+1.2004} & \textbf{+0.0189}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for \gls{fsrcnn} vs Bicubic Interpolation}
+	\label{tab:experiment}
+\end{table}
+
+
+\subsection{Results summary}
