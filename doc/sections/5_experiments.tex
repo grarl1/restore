@@ -1,22 +1,51 @@
 % !TeX spellcheck = en_US
 \section{Experiments}\label{sec:experiments}
-In this section we present the results of all the experiments described above. 
+In this section, we present the results of all the experiments described before in this document.  
 
-All the evaluations are performed using Set5 \cite{SET5} and Set14 \cite{SET14} datasets.
+All the evaluations are performed using Set5 \cite{SET5} and Set14 \cite{SET14}, which are degraded by applying the following algorithms in order to obtain the \gls{lr} images:
 
-First, all the images in Set5 and Set14 are downscaled using Lanczos interpolation with a scale factor of 2. Second, we apply one of the following noise types varying the noise parameters in order to enlarge the test set:
+\begin{itemize}
+\item First, all the images in Set5 and Set14 are downscaled using Lanczos interpolation with a scale factor of 2. 
+\item Second, we apply one of the following noise types varying the noise parameters in order to enlarge the test set:
 \begin{itemize}
 	\item Gaussian noise is applied using $\mu=0$ and $\sigma = 0.05, \sigma = 0.10$ and $\sigma = 0.15$.
 	\item Poisson noise is applied using input pixels values as means of Poisson distributions scaled up by $2^8$.
 	\item Salt-and-pepper and uniform noise is applied using noise ratios of $0.05, 0.10, 0.15$ and $0.20$.
 \end{itemize}
+\end{itemize}
+
+After applying these filters with their respective parameter variations, we end up having 12 sets of 19 images, making a total of 228 \gls{lr} images, which correspond to the 19 \gls{hr} images of Set5 and Set14. Figure \ref{fig:exp0} shows some examples of this processing applied to the ``baby'' image from Set5.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp0.1/gaussian0.png}
+		\caption{Gaussian, $\sigma=0.1$}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp0.1/poisson0.png}
+		\caption{Poisson}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp0.1/salt0.png}
+		\caption{S\&P, $r=0.1$}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp0.1/uniform0.png}
+		\caption{Uniform, $r=0.1$}
+	\end{subfigure}
+\caption{The image ``baby'' from Set5, degraded using downscaling with a factor of 2 and different types of noise.}
+\label{fig:exp0}
+\end{figure}
+
+The same 228 images are used for all the experiments. All the settings can be found along with the implementation of the \glspl{cnn} and the datasets. 
 
 For the experiments that make use of median filter and wavelet denoiser, we apply the \textsc{matlab} functions \texttt{medfilt2()} and \texttt{wdenoise2()}.
 
-In order to perform the evaluation of the quality metrics, the \textsc{matlab} functions \texttt{psnr()} and \texttt{ssim()} have been used.
+In order to perform the evaluation of the quality metrics, the \textsc{matlab} functions \texttt{psnr()} and \texttt{ssim()} are used.
 
 \subsection{Experiment 1.1}
-In this experiment, we evaluate \gls{fsrcnn} $+$ \gls{ircnn} on \gls{lr} images produced from Set5 and Set14.
+In this experiment, we evaluate \gls{fsrcnn} $+$ \gls{ircnn} on our set of 228 \gls{lr} images. The results of this experiment are presented in Table \ref{tab:experiment11}.
 
 \begin{table}[h]
 	\centering
@@ -55,28 +84,10 @@ In this experiment, we evaluate \gls{fsrcnn} $+$ \gls{ircnn} on \gls{lr} images 
 	\label{tab:experiment11}
 \end{table}
 
-The results of this experiment are presented in Table \ref{tab:experiment11}. In the table, we can see that for Set5, the values of \gls{psnr} and \gls{ssim} are $20.6598dB$ and $0.6708$, respectively. For Set14, we obtained a \gls{psnr} of $19.9200dB$ and a \gls{ssim} of $0.6090$.
-
-These values are quite low given the fact that the used images have 8-bit depth. After visually inspecting the results, we can see that the images present high quantity of noise for all the cases.
+In the table, we can see quite low values of \gls{psnr} and \gls{ssim} for both Set5 and Set14. In fact, if we visually inspect the results, we can observe that the images present a large amount of noise for all the cases. This is shown in Figure \ref{fig:exp1.1}, that exposes the results of restoring the downscale, noisy images of Figure \ref{fig:exp0} using \gls{fsrcnn} $+$ \gls{ircnn}.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.1/gaussian0.png}
-		\caption{Gaussian, $\sigma=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.1/poisson0.png}
-		\caption{Poisson}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.1/salt0.png}
-		\caption{S\&P, $r=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.1/uniform0.png}
-		\caption{Uniform, $r=0.1$}
-	\end{subfigure}
 	\begin{subfigure}{0.24\textwidth}
 		\includegraphics[width=\textwidth]{images/exp1.1/gaussian.png}
 		\caption{Gaussian restored}
@@ -97,25 +108,21 @@ These values are quite low given the fact that the used images have 8-bit depth.
 	\label{fig:exp1.1}
 \end{figure}
 
-In Figure \ref{fig:exp1.1} we can see two rows of images. The first row represents the result of downscaling one of the images of Set5 and applying one of the selected types of noise. The second row is the result of applying \gls{fsrcnn} $+$ \gls{ircnn} to the downscale, noisy image.
+In the figure, we can see that applying the networks in this order cannot remove the noise of the images properly. Instead, \gls{fsrcnn} tries to super-resolve the noise pixels, mixing up the good information of the image with them. Once the image is super-resolved, \gls{ircnn} tries to remove the noise. However, in this case, the resulting noise is a super-resolved version of the original applied noise, and therefore, the network is not capable of detecting the residual part of the image.
 
-In the figure, we can see that applying the networks in this order will not remove the noise of the images properly, but instead, \gls{fsrcnn} tries to super-resolve the noise pixels, mixing the good information of the image with them. Once the image is super-resolved, \gls{ircnn} will try to remove the noise. However, in this case, the resulting noise is a super-resolved version of the original applied noise, and therefore, the network is not capable of detect the residual part of the image in order to remove it.
+This effect repeats for all the images in both Set5 and Set14 and for all noise types. As a consequence, we can observe low \gls{psnr} and \gls{ssim} values in Table \ref{tab:experiment11}.
 
-This effect repeats for all the images in both Set5 and Set14 and for each noise type. As a consequence, we can observe low \gls{psnr} and \gls{ssim} values in Table \ref{tab:experiment11}.
-
-The results of this experiment shows us that \gls{fsrcnn} $+$ \gls{ircnn} will produce low quality results and it is not appropriate to super-resolve and denoise our \gls{lr} images.
+The results of this experiment shows us that \gls{fsrcnn} $+$ \gls{ircnn} will produce low quality results and that it is not appropriate to super-resolve and denoise our \gls{lr} images.
 
 \subsection{Experiment 1.2}
-In this experiment, we evaluate the results of applying \gls{ircnn} $+$ \gls{fsrcnn} to our set of \gls{lr} images.
-
-Table \ref{tab:experiment12} shows the quality metrics results for this experiment. First of all, we can see a \gls{psnr} value of $30.3080dB$ on the images of Set5 and $27.5697dB$ on the images of Set14, which improves the results of the previous experiment by $+8.6489dB$ in average. On the other hand, the \gls{ssim} results in this case are $0.9297$ and $0.8849$, which are much closer to $1$ compared to Experiment 1.1.
+In this experiment, we reverse the order of the networks from the previous experiment and evaluate instead the results of applying \gls{ircnn} $+$ \gls{fsrcnn} to our set of \gls{lr} images. Table \ref{tab:experiment12} shows the quality metrics results for this experiment. 
 
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
 		\hline
 		\rowcolor[HTML]{EFEFEF} 
-		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
 		\rowcolor[HTML]{FFFFFF} 
 		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 29.4125 & 0.9055 & 27.1441 & 0.8704 \\
 		\rowcolor[HTML]{EFEFEF} 
@@ -147,28 +154,12 @@ Table \ref{tab:experiment12} shows the quality metrics results for this experime
 	\label{tab:experiment12}
 \end{table}
 
-In Figure \ref{fig:exp1.2}, we present results of applying \gls{ircnn} $+$ \gls{fsrcnn}. By reversing the order of the networks, we can see that the image gets denoised and super-resolved, not presenting as much noise as in the Experiment 1.1.
+First of all, we can see a \gls{psnr} value of $30.3080dB$ on the images of Set5 and $27.5697dB$ on the images of Set14, which improves the results of the previous experiment by $+8.6489dB$ in average. On the other hand, the \gls{ssim} results in this case are $0.9297$ and $0.8849$, which are much closer to $1$ than the values obtained in Experiment 1.1.
 
-Given these results, the next sets of experiments, which use both traditional and deep learning based methods, apply the algorithms following this order: first, the corresponding denoiser is applied (\gls{ircnn}, wavelet denoiser or median filter), followed by the \gls{sisr} algorithm (\gls{fsrcnn} or bicubic interpolation).
+This improvement on the metrics can be also observed in Figure \ref{fig:exp1.2}, in which we present the results of applying \gls{ircnn} $+$ \gls{fsrcnn} on the images of Figure \ref{fig:exp0}. By reversing the order of the networks, we can see that the images get denoised and super-resolved, not presenting large amounts of noise as seen in the results of Experiment 1.1.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.2/gaussian0.png}
-		\caption{Gaussian, $\sigma=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.2/poisson0.png}
-		\caption{Poisson}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.2/salt0.png}
-		\caption{S\&P, $r=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp1.2/uniform0.png}
-		\caption{Uniform, $r=0.1$}
-	\end{subfigure}
 	\begin{subfigure}{0.24\textwidth}
 		\includegraphics[width=\textwidth]{images/exp1.2/gaussian.png}
 		\caption{Gaussian restored}
@@ -189,19 +180,21 @@ Given these results, the next sets of experiments, which use both traditional an
 	\label{fig:exp1.2}
 \end{figure}
 
+In this case, \gls{ircnn} first removes the residual, obtaining an approximation to the downscale version of the \gls{hr} image. Once this is done, \gls{fsrcnn} super-resolves the denoised output in order to obtain the \gls{hr} image. 
+
+Given these results, the next sets of experiments, which use both traditional and deep learning based methods, apply the algorithms following this logical order: the corresponding denoiser is applied (\gls{ircnn}, wavelet denoiser or median filter) followed by the \gls{sisr} algorithm (\gls{fsrcnn} or bicubic interpolation).
+
 
 \subsection{Experiment 2.1}
 
-In this experiment, we evaluate the results of replacing \gls{fsrcnn} by bicubic interpolation.
-
-By doing this, we intend to analyze how the traditional method performs in comparison to the deep learning method when combined with \gls{ircnn}. 
+In this experiment, we evaluate the results of replacing \gls{fsrcnn} by bicubic interpolation in the previous experiment. By doing this, we intend to analyze how a traditional method performs in comparison to a deep learning method when combined with \gls{ircnn}. The results of this experiment are exposed in Table \ref{tab:experiment21}.
 
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
 		\hline
 		\rowcolor[HTML]{EFEFEF} 
-		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
 		\rowcolor[HTML]{FFFFFF} 
 		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 29.1069 & 0.9188 & 26.7379 & 0.8608 \\
 		\rowcolor[HTML]{EFEFEF} 
@@ -227,32 +220,18 @@ By doing this, we intend to analyze how the traditional method performs in compa
 		\rowcolor[HTML]{EFEFEF} 
 		\multirow{-4}{*}{\cellcolor[HTML]{EFEFEF}Uniform} & $r=0.20$ & 29.5822 & 0.9393 & 26.8459 & 0.8753 \\
 		\rowcolor[HTML]{FFFFFF} 
-		\textbf{All} &  & \textbf{29.7457} & \textbf{0.9369} & \textbf{26.9767} & \textbf{0.8722}
+		\textbf{All} &  & \textbf{29.7457} & \textbf{0.9369} & \textbf{26.9767} & \textbf{0.8722}\\\hline
 	\end{tabular}
 	\caption{\gls{psnr} and \gls{ssim} results for the Experiment 2.1}
 	\label{tab:experiment21}
 \end{table}
 
-The results of this experiment are exposed in Table \ref{tab:experiment21}. Using the data in the table, we can see that, in average, the overall \gls{psnr} results are $0.5732dB$ lower and the \gls{ssim} results are $0.0028$ units lower than the results of Experiment 1.2. However, if we take a look at the \gls{ssim} results on the five images of Set5, we see a slight improvement when we choose bicubic interpolation over \gls{fsrcnn}.
+In the table, we can see that, in average, the overall \gls{psnr} and \gls{ssim} results are $0.5732dB$ and $0.0028$ units lower than the results of Experiment 1.2, respectively. However, if we take a look at the \gls{ssim} results on the five images of Set5, we see a slight improvement when we choose bicubic interpolation over \gls{fsrcnn}.
+
+In Figure \ref{fig:exp2.1} we present the results of applying \gls{ircnn} $+$ bicubic interpolation to the images of \ref{fig:exp0}. In this case, we can see that the bicubic interpolation provides good results as well, however it cannot conserve the image edges as well as \gls{fsrcnn} does when super-resolving the \gls{lr} images.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.1/gaussian0.png}
-		\caption{Gaussian, $\sigma=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.1/poisson0.png}
-		\caption{Poisson}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.1/salt0.png}
-		\caption{S\&P, $r=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.1/uniform0.png}
-		\caption{Uniform, $r=0.1$}
-	\end{subfigure}
 	\begin{subfigure}{0.24\textwidth}
 		\includegraphics[width=\textwidth]{images/exp2.1/gaussian.png}
 		\caption{Gaussian restored}
@@ -273,20 +252,36 @@ The results of this experiment are exposed in Table \ref{tab:experiment21}. Usin
 	\label{fig:exp2.1}
 \end{figure}
 
+This results show that even though in average \gls{fsrcnn} performs better, there might be some cases in which the bicubic interpolation approximates better the original \gls{hr} image.
 
-This results show that even though in average \gls{fsrcnn} performs better, there might be some cases in which the bicubic interpolation approximates better the original image given the output of \gls{ircnn}, which has convolved the initial \gls{lr} image with its corresponding filers in order to remove the noise.
+However, the performance of the \gls{sisr} algorithms is being compared using the output of \gls{ircnn} as an input, which is the result of convolving the noisy \gls{lr} image with the corresponding \gls{ircnn} filters. Hence, even though the \gls{ssim} results for Set5 show better performance for bicubic interpolation, we show in Table \ref{tab:experiment} that \gls{fsrcnn} overperforms bicubic interpolation if we use the downscaled images without noise as the input of both algorithms.
 
-However, if we observe the results of Figure \ref{fig:exp2.1}, we can see that bicubic interpolation does not conserve the image edges as well as \gls{fsrcnn} does when super-resolving the \gls{lr} image.
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|r|r|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\multicolumn{1}{|c}{\cellcolor[HTML]{EFEFEF}\textbf{Method}} &
+		\multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\gls{fsrcnn} & 33.9226 & 0.9733 & 29.8034 & 0.9304\\
+		\rowcolor[HTML]{EFEFEF} 
+		Bicubic Interpolation & 32.2347 & 0.9677 & 28.6030 & 0.9115\\\hline
+		\textbf{\gls{fsrcnn} - Bicubic} & \textbf{+1.6879} & \textbf{+0.0056} & \textbf{+1.2004} & \textbf{+0.0189}\\\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results for \gls{fsrcnn} vs Bicubic Interpolation}
+	\label{tab:experiment}
+\end{table}
 
 \subsection{Experiment 2.2}
-In this experiment, we evaluate the results of applying wavelet denoiser $+$ \gls{fsrcnn}.
+In this experiment, we evaluate the results of applying wavelet denoiser $+$ \gls{fsrcnn}. In this case, instead of substituting the super-resolution algorithm, we keep \gls{fsrcnn} for the \gls{sisr} task and replace \gls{ircnn} by a wavelet denoiser. The results of this experiment are exposed in Table \ref{tab:experiment22}.
 
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
 		\hline
 		\rowcolor[HTML]{EFEFEF} 
-		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
 		\rowcolor[HTML]{FFFFFF} 
 		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 27.8830 & 0.9132 & 25.8943 & 0.8294 \\
 		\rowcolor[HTML]{EFEFEF} 
@@ -318,28 +313,10 @@ In this experiment, we evaluate the results of applying wavelet denoiser $+$ \gl
 	\label{tab:experiment22}
 \end{table}
 
-In this case, we have replaced \gls{ircnn} by a traditional method for the denoising task, and the super-resolution is performed by \gls{fsrcnn}.
-
-Table \ref{tab:experiment22} expose the results of this experiment. 
+In the table, we can observe much worse \gls{psnr} and \gls{ssim} results compared to the experiments that are using \gls{ircnn} as a denoiser. This results can also be observed in Figure \ref{fig:exp2.2}, in which wavelet denoiser $+$ \gls{fsrcnn} are applied on the images of Figure \ref{fig:exp0}.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.2/gaussian0.png}
-		\caption{Gaussian, $\sigma=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.2/poisson0.png}
-		\caption{Poisson}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.2/salt0.png}
-		\caption{S\&P, $r=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.2/uniform0.png}
-		\caption{Uniform, $r=0.1$}
-	\end{subfigure}
 	\begin{subfigure}{0.24\textwidth}
 		\includegraphics[width=\textwidth]{images/exp2.2/gaussian.png}
 		\caption{Gaussian restored}
@@ -360,16 +337,19 @@ Table \ref{tab:experiment22} expose the results of this experiment.
 	\label{fig:exp2.2}
 \end{figure}
 
+In the first instance, the wavelet denoiser is able to effectively reduce the noise for those types of noise that are additive or signal dependent, i.e., the Gaussian noise and the Poisson noise. However, the quality of the results is not as high as in the \gls{ircnn} results. 
+
+On the other hand, if we take a look at the results of this combination on the images degraded by salt-and-pepper noise and uniform noise, we can observe that the wavelet algorithm cannot properly remove the noise, and therefore the final images present low-quality.
 
 \subsection{Experiment 2.3}
-In this experiment, we evaluate the results of applying median filter $+$ \gls{fsrcnn}.
+In this experiment, we replace the wavelet denoiser of the previous experiment by a median filter. Therefore, we evaluate the results of applying a median filter + \gls{fsrcnn} on our set of \gls{lr} images. The metrics results of this experiment are presented in Table \ref{tab:experiment23}.
 
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
 		\hline
 		\rowcolor[HTML]{EFEFEF} 
-		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
 		\rowcolor[HTML]{FFFFFF} 
 		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 25.9872 & 0.8739 & 23.9859 & 0.7578 \\
 		\rowcolor[HTML]{EFEFEF} 
@@ -401,26 +381,10 @@ In this experiment, we evaluate the results of applying median filter $+$ \gls{f
 	\label{tab:experiment23}
 \end{table}
 
-Table \ref{tab:experiment23} shows the results of this experiment.
+In the table, we can see that the average \gls{psnr} and \gls{ssim} results improve when we replace the wavelet denoiser by a median filter. However, even though the overall results and the results obtained on the images degraded with salt-and-pepper and uniform noise are better compared to the previous experiment, the wavelet denoiser overperforms the median filter on the images that presented with Gaussian and Poisson noise.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.3/gaussian0.png}
-		\caption{Gaussian, $\sigma=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.3/poisson0.png}
-		\caption{Poisson}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.3/salt0.png}
-		\caption{S\&P, $r=0.1$}
-	\end{subfigure}
-	\begin{subfigure}{0.24\textwidth}
-		\includegraphics[width=\textwidth]{images/exp2.3/uniform0.png}
-		\caption{Uniform, $r=0.1$}
-	\end{subfigure}
 	\begin{subfigure}{0.24\textwidth}
 		\includegraphics[width=\textwidth]{images/exp2.3/gaussian.png}
 		\caption{Gaussian restored}
@@ -441,13 +405,19 @@ Table \ref{tab:experiment23} shows the results of this experiment.
 	\label{fig:exp2.3}
 \end{figure}
 
+This can also be observed in Figure \ref{fig:exp2.3}, in which we present the results of applying median filter $+$ \gls{fsrcnn} to the images of Figure \ref{fig:exp0}. The images that had Gaussian and Poisson noise still present a considerable amount of noise after the restoration. On the other hand, the images degraded with salt-and-pepper and uniform noise present a much lower amount of noise after applying the median filter. 
+
+In any case, the performance obtained in Experiment 1.2. cannot be reached by using any of these traditional filters.
+
+
+
 \subsection{Experiment 3.1}
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
 		\hline
 		\rowcolor[HTML]{EFEFEF} 
-		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
 		\rowcolor[HTML]{FFFFFF} 
 		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 27.8760 & 0.9116 & 25.8165 & 0.8244 \\
 		\rowcolor[HTML]{EFEFEF} 
@@ -479,13 +449,36 @@ Table \ref{tab:experiment23} shows the results of this experiment.
 	\label{tab:experiment31}
 \end{table}
 
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.1/gaussian.png}
+		\caption{Gaussian restored}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.1/poisson.png}
+		\caption{Poisson restored}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.1/salt.png}
+		\caption{S\&P restored}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.1/uniform.png}
+		\caption{Uniform restored}
+	\end{subfigure}
+	\caption{Experiment 3.1: restoration using wavelet denoiser $+$ bicubic interpolation}
+	\label{fig:exp3.1}
+\end{figure}
+
+
 \subsection{Experiment 3.2}
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
 		\hline
 		\rowcolor[HTML]{EFEFEF} 
-		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Noise}} & \textbf{Parameters} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
 		\rowcolor[HTML]{FFFFFF} 
 		\cellcolor[HTML]{EFEFEF} & $\mu=0, \sigma=0.05$ & 26.2755 & 0.8812 & 24.2264 & 0.7663 \\
 		\rowcolor[HTML]{EFEFEF} 
@@ -517,20 +510,27 @@ Table \ref{tab:experiment23} shows the results of this experiment.
 	\label{tab:experiment32}
 \end{table}
 
-\subsection{Results summary}
-\begin{table}[]
+
+\begin{figure}
 	\centering
-	\begin{tabular}{|l|r|r|r|r|}
-		\hline
-		\rowcolor[HTML]{EFEFEF}
-		\multicolumn{1}{|c}{\cellcolor[HTML]{EFEFEF}\textbf{Method}} &
-		\multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set5 \gls{ssim}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{psnr}}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Set14 \gls{ssim}}} \\ \hline
-		\rowcolor[HTML]{FFFFFF} 
-		\gls{fsrcnn} & 33.9226 & 0.9733 & 29.8034 & 0.9304\\
-		\rowcolor[HTML]{EFEFEF} 
-		Bicubic Interpolation & 32.2347 & 0.9677 & 28.6030 & 0.9115\\\hline
-		\textbf{\gls{fsrcnn} - Bicubic} & \textbf{+1.6879} & \textbf{+0.0056} & \textbf{+1.2004} & \textbf{+0.0189}\\\hline
-	\end{tabular}
-	\caption{\gls{psnr} and \gls{ssim} results for \gls{fsrcnn} vs Bicubic Interpolation}
-	\label{tab:experiment}
-\end{table}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.2/gaussian.png}
+		\caption{Gaussian restored}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.2/poisson.png}
+		\caption{Poisson restored}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.2/salt.png}
+		\caption{S\&P restored}
+	\end{subfigure}
+	\begin{subfigure}{0.24\textwidth}
+		\includegraphics[width=\textwidth]{images/exp3.2/uniform.png}
+		\caption{Uniform restored}
+	\end{subfigure}
+	\caption{Experiment 3.2: restoration using median filter $+$ bicubic interpolation}
+	\label{fig:exp3.2}
+\end{figure}
+
+\subsection{Results summary}
