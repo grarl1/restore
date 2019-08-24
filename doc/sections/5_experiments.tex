@@ -409,9 +409,9 @@ This can also be observed in Figure \ref{fig:exp2.3}, in which we present the re
 
 In any case, the performance obtained in Experiment 1.2. cannot be reached by using any of these traditional filters.
 
-
-
 \subsection{Experiment 3.1}
+In this experiment we use a traditional approach for for both tasks: a wavelet denoiser is used for the image denoising task and bicubic interpolation is used for super-resolution. Table \ref{tab:experiment31} shows the quality metrics results for this experiment.
+
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
@@ -449,6 +449,10 @@ In any case, the performance obtained in Experiment 1.2. cannot be reached by us
 	\label{tab:experiment31}
 \end{table}
 
+In the table, we can see that the \gls{psnr} and \gls{ssim} results are very similar to the ones of Experiment 2.2. In this case, replacing \gls{fsrcnn} by bicubic interpolation does not bring any improvement due to the fact that the super-resolution task is being performed using images which have been denoised with low quality results.
+
+Figure \ref{fig:exp3.1} shows the results of applying a wavelet denoiser $+$ bicubic interpolation to the images of Figure \ref{fig:exp0}. In the figure, we can see the same effect as in Experiment 2.2: even though the wavelet denoiser is able to remove Gaussian and Poisson noise, the obtained quality is not high enough, and the denoising results are not acceptable for salt-and-pepper and uniform noise.
+
 \begin{figure}
 	\centering
 	\begin{subfigure}{0.24\textwidth}
@@ -471,8 +475,11 @@ In any case, the performance obtained in Experiment 1.2. cannot be reached by us
 	\label{fig:exp3.1}
 \end{figure}
 
+Therefore, although \gls{fsrcnn} is able to outperform bicubic interpolation in most of the cases, in this experiment its inputs are too degraded by the applied noise.
 
 \subsection{Experiment 3.2}
+In this experiment we evaluate the performance of applying median filter $+$ bicubic interpolation on our set of degraded images. The results of this experiment are exposed in Table \ref{tab:experiment32}.
+
 \begin{table}[]
 	\centering
 	\begin{tabular}{|l|l|r|r|r|r|}
@@ -510,6 +517,9 @@ In any case, the performance obtained in Experiment 1.2. cannot be reached by us
 	\label{tab:experiment32}
 \end{table}
 
+In the table, we can observe that the obtained quality results are similar to the ones of Experiment 2.3. As in the previous experiment, the denoiser is not able to provide high denoising quality and therefore the super-resolution step is performed using noisy images.
+
+
 
 \begin{figure}
 	\centering
@@ -533,4 +543,43 @@ In any case, the performance obtained in Experiment 1.2. cannot be reached by us
 	\label{fig:exp3.2}
 \end{figure}
 
+In Figure \ref{fig:exp3.2} we present the results of applying median filter $+$ bicubic interpolation on the images of Figure \ref{fig:exp0}. Once more, we can see results that are similar to Figure \ref{fig:exp2.3}: the images degraded with Gaussian and Poisson noise still have a considerable amount of noise, whereas the noise in the images that presented salt-and-pepper and uniform noise is much lower.
+
 \subsection{Results summary}
+In this section we summarize the results of all the experiments carried out for this study. Table \ref{tab:expsum} presents a summary of the \gls{psnr} and \gls{ssim} results for each of them.
+
+First of all, we can see that both approaches that use a pure deep learning solution for the \gls{sisr} and denoising tasks present very different results. Experiment 1.1 shows very low restoration quality results because \gls{fsrcnn} mixes up the information contained in the pixels of the image with those that have lost information due to the applied noise. On the other hand, Experiment 1.2 presents much better results obtained by simply swapping the order in which the neural networks are applied.
+
+In the rest of experiments, we compared the performance obtained when we replaced the \glspl{cnn} by traditional methods for the \gls{sisr} and denoising tasks. The results show that when we replace \gls{ircnn} by a wavelet denoiser or a median filter, the restoration quality decreases highly.
+
+Furthermore, we have also observed that the results for the \gls{sisr} are directly impacted by the performance of the denoising step. In fact, we can see in the table that \gls{fsrcnn} is not able to overperform bicubic interpolation when we use traditional methods for the denoising.
+
+The best restoration quality results are achieved by using the deep learning methods as long as the denoising step is performed before \gls{sisr}.
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|r|r|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{Experiment}} &
+		\multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Solution}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{\gls{psnr} (dB)}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{\gls{ssim}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} Experiment 1.1 & \gls{fsrcnn} $+$ \gls{ircnn} & 20.2899 & 0.6399 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} \textbf{Experiment 1.2} & \textbf{\gls{ircnn}} $+$ \textbf{\gls{fsrcnn}} & \textbf{28.9344} & \textbf{0.9073} \\
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} Experiment 2.1 & \gls{ircnn} $+$ Bicubic & 28.3612 & 0.9046\\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} Experiment 2.2 & Wavelet $+$ \gls{fsrcnn} & 21.7753 & 0.7070 \\ 
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} Experiment 2.3 & Median $+$ \gls{fsrcnn} & 24.3825 & 0.8138 \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{EFEFEF} Experiment 3.1 & Wavelet $+$ Bicubic & 22.1286 & 0.7151 \\ 
+		\rowcolor[HTML]{FFFFFF} 
+		\cellcolor[HTML]{EFEFEF} Experiment 3.2 & Median $+$ Bicubic & 24.6621 & 0.8216 \\
+		\hline
+	\end{tabular}
+	\caption{\gls{psnr} and \gls{ssim} results on Set5 and Set14}
+	\label{tab:expsum}
+\end{table}
+
