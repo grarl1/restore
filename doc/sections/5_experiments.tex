@@ -44,7 +44,7 @@ For the experiments that make use of median filter and wavelet denoiser, we appl
 
 In order to perform the evaluation of the quality metrics, the \textsc{matlab} functions \texttt{psnr()} and \texttt{ssim()} are used.
 
-\subsection{Experiment 1.1}
+\newpage\subsection{Experiment 1.1}
 In this experiment, we evaluate \gls{fsrcnn} $+$ \gls{ircnn} on our set of 228 \gls{lr} images. The results of this experiment are presented in Table \ref{tab:experiment11}.
 
 \begin{table}[h]
@@ -114,7 +114,7 @@ This effect repeats for all the images in both Set5 and Set14 and for all noise 
 
 The results of this experiment shows us that \gls{fsrcnn} $+$ \gls{ircnn} will produce low quality results and that it is not appropriate to super-resolve and denoise our \gls{lr} images.
 
-\subsection{Experiment 1.2}
+\newpage\subsection{Experiment 1.2}
 In this experiment, we reverse the order of the networks from the previous experiment and evaluate instead the results of applying \gls{ircnn} $+$ \gls{fsrcnn} to our set of \gls{lr} images. Table \ref{tab:experiment12} shows the quality metrics results for this experiment. 
 
 \begin{table}[]
@@ -185,7 +185,7 @@ In this case, \gls{ircnn} first removes the residual, obtaining an approximation
 Given these results, the next sets of experiments, which use both traditional and deep learning based methods, apply the algorithms following this logical order: the corresponding denoiser is applied (\gls{ircnn}, wavelet denoiser or median filter) followed by the \gls{sisr} algorithm (\gls{fsrcnn} or bicubic interpolation).
 
 
-\subsection{Experiment 2.1}
+\newpage\subsection{Experiment 2.1}
 
 In this experiment, we evaluate the results of replacing \gls{fsrcnn} by bicubic interpolation in the previous experiment. By doing this, we intend to analyze how a traditional method performs in comparison to a deep learning method when combined with \gls{ircnn}. The results of this experiment are exposed in Table \ref{tab:experiment21}.
 
@@ -273,7 +273,7 @@ However, the performance of the \gls{sisr} algorithms is being compared using th
 	\label{tab:experiment}
 \end{table}
 
-\subsection{Experiment 2.2}
+\newpage\subsection{Experiment 2.2}
 In this experiment, we evaluate the results of applying wavelet denoiser $+$ \gls{fsrcnn}. In this case, instead of substituting the super-resolution algorithm, we keep \gls{fsrcnn} for the \gls{sisr} task and replace \gls{ircnn} by a wavelet denoiser. The results of this experiment are exposed in Table \ref{tab:experiment22}.
 
 \begin{table}[]
@@ -341,7 +341,7 @@ In the first instance, the wavelet denoiser is able to effectively reduce the no
 
 On the other hand, if we take a look at the results of this combination on the images degraded by salt-and-pepper noise and uniform noise, we can observe that the wavelet algorithm cannot properly remove the noise, and therefore the final images present low-quality.
 
-\subsection{Experiment 2.3}
+\newpage\subsection{Experiment 2.3}
 In this experiment, we replace the wavelet denoiser of the previous experiment by a median filter. Therefore, we evaluate the results of applying a median filter + \gls{fsrcnn} on our set of \gls{lr} images. The metrics results of this experiment are presented in Table \ref{tab:experiment23}.
 
 \begin{table}[]
@@ -409,7 +409,7 @@ This can also be observed in Figure \ref{fig:exp2.3}, in which we present the re
 
 In any case, the performance obtained in Experiment 1.2. cannot be reached by using any of these traditional filters.
 
-\subsection{Experiment 3.1}
+\newpage\subsection{Experiment 3.1}
 In this experiment we use a traditional approach for for both tasks: a wavelet denoiser is used for the image denoising task and bicubic interpolation is used for super-resolution. Table \ref{tab:experiment31} shows the quality metrics results for this experiment.
 
 \begin{table}[]
@@ -477,7 +477,7 @@ Figure \ref{fig:exp3.1} shows the results of applying a wavelet denoiser $+$ bic
 
 Therefore, although \gls{fsrcnn} is able to outperform bicubic interpolation in most of the cases, in this experiment its inputs are too degraded by the applied noise.
 
-\subsection{Experiment 3.2}
+\newpage\subsection{Experiment 3.2}
 In this experiment we evaluate the performance of applying median filter $+$ bicubic interpolation on our set of degraded images. The results of this experiment are exposed in Table \ref{tab:experiment32}.
 
 \begin{table}[]

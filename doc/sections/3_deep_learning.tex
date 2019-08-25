@@ -41,6 +41,7 @@ Zhang et al. also proposed \gls{ircnn} \cite{IRCNN}, which is a \gls{cnn}-based 
 
 In \cite{DILATED}, Wang et al. present a dilated residual \gls{cnn} for Gaussian image denoising in which the receptive field is enlarged by adopting dilated convolution.
 
+\newpage
 \subsection{FSRCNN and IRCNN}
 In this subsection, we review the structure of the two \glspl{cnn} used in this study: \gls{fsrcnn} and \gls{ircnn}.
 
@@ -115,3 +116,4 @@ Following the notation described above, we represent a the dilated convolution l
 		\rightarrow & DConv_2(3,64,64) + BatchNorm + ReLU
 		\rightarrow DConv_1(3,c,64) \rightarrow \text{Residual Image}
 \end{flalign}
+\newpage
