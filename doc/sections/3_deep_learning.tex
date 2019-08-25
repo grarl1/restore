@@ -12,11 +12,11 @@ Recently, deep learning methods for \gls{sisr} have demonstrated promising perfo
 
 With the publication of \gls{srcnn} \cite{SRCNN}, deep learning methods can be added to this taxonomy. Within this category, multiple methods using different kinds of neural network have been developed. 
 
-Kim et al. proposed \gls{vdsr} \cite{VDSR}, that uses similar structure as \gls{srcnn} but using a deeper network.
+Kim et al. proposed \gls{vdsr} \cite{VDSR}, that uses a similar structure as \gls{srcnn} but using a deeper network.
 
-\gls{espcn} \cite{ESPCN} was proposed by Shi et al to make \gls{srcnn} more efficient. This network performs the feature extraction in the \gls{lr} space in order to consume less computational resources. Once the extraction is done, it uses a sub-pixel convolution in order to reconstruct the \gls{hr} image.
+\gls{espcn} \cite{ESPCN} was proposed by Shi et al. to make \gls{srcnn} more efficient. This network performs the feature extraction in the \gls{lr} space in order to consume less computational resources. Once the extraction is done, it uses a sub-pixel convolution in order to reconstruct the \gls{hr} image.
 
-Dong et al. designed \gls{fsrcnn} \cite{FSRCNN} by accelerating \gls{srcnn} \cite{SRCNN} in multiple steps. First, the last convolution layer of \gls{srcnn} was replaced by a deconvolution layer, eliminating the need for using bicubic interpolation on the input \gls{lr} image. Second, the non-linear mapping layer was replaced by a shrinking layer, 4 non-linear mapping layer and an expanding layer, increasing the number of layers but reducing the number of parameters.
+Dong et al. designed \gls{fsrcnn} \cite{FSRCNN} by accelerating \gls{srcnn} \cite{SRCNN} in multiple steps. First, the last convolution layer of \gls{srcnn} was replaced by a deconvolution layer, eliminating the need for using bicubic interpolation on the input \gls{lr} image. Second, the non-linear mapping layer was replaced by a shrinking layer, 4 non-linear mapping layers and an expanding layer, increasing the number of layers but reducing the number of parameters.
 
 Residual networks have also been used for the \gls{sisr} task \cite{EDSR}\cite{REDNET}. These networks use skip connections to jump over some of their layers in order to tackle the problem of gradient vanishing, allowing to design very deep networks.
 
@@ -29,22 +29,22 @@ Some image denoisers, such as \gls{ircnn} \cite{IRCNN} and \gls{dncnn} \cite{DNC
 Anwar et al. \cite{DBLP:SISR} proposed a taxonomy that categorizes deep learning methods for \gls{sisr} into 9 different groups according to their model designs, namely, linear networks, residual networks, recursive networks, progressive reconstruction designs, densely connected networks, multi-branch designs, attention based networks, multiple degradation handling networks and \gls{gan} models.
 
 \subsection{Deep Learning for Image Denoising}
-Image denoising is another important task in computer vision applications. Over the past years, multiple methods for modeling image priors, such as \gls{mrf} \cite{MRF}, \gls{bm3d} \cite{BM3D} and \gls{ncsr} \cite{NCSR}, have been proposed in order to tackle this problem. However, the mentioned methods have shown high computational cost and they also need to have their parameters manually chosen in order to improve performance \cite{DBLP:DEEPNR}. Multiple methods have been proposed to solve these problems. 
+Image denoising is another important task in computer vision applications. Over the past years, multiple methods for modeling image priors, such as \gls{mrf} \cite{MRF}, \gls{bm3d} \cite{BM3D} and \gls{ncsr} \cite{NCSR}, have been proposed in order to tackle this problem. However, the mentioned methods have shown high computational cost and they also need to have their parameters manually chosen in order to improve the performance \cite{DBLP:DEEPNR}. Multiple methods have been proposed to solve these problems. 
 
-In \cite{TNRD}, Chen et al. presented a  \gls{tnrd} model in which the filters and the influence functions can be learned from the training data., 
+In \cite{TNRD}, Chen et al. presented a  \gls{tnrd} model in which the filters and the influence functions can be learned from the training data. 
 
 In \cite{DEEPAM}, Kim et al. proposed \gls{deepam}, which learns a regularizer via deep aggregation in order to solve multiple image restoration tasks, including single image denoising.  
 
 Zhang et al. proposed \gls{dncnn} \cite{DNCNN}, which uses residual learning and batch normalization in order to speed up the training process and boost the denoising performance.
 
-Zhang et al. also proposed \gls{ircnn} \cite{IRCNN}, which is a \gls{cnn} based image denoiser that can be used for several low-level computer vision tasks such as \gls{sisr} or deblurring. \gls{ircnn} uses \gls{hqs} to show that a \gls{cnn} based denoiser prior can be plugged as a modular part of model-based optimization methods in order to solve multiple inverse problems.
+Zhang et al. also proposed \gls{ircnn} \cite{IRCNN}, which is a \gls{cnn}-based image denoiser that can be used for several low-level computer vision tasks such as \gls{sisr} or deblurring. \gls{ircnn} uses \gls{hqs} to show that a \gls{cnn} based denoiser prior can be plugged as a modular part of model-based optimization methods in order to solve multiple inverse problems.
 
 In \cite{DILATED}, Wang et al. present a dilated residual \gls{cnn} for Gaussian image denoising in which the receptive field is enlarged by adopting dilated convolution.
 
 \subsection{FSRCNN and IRCNN}
 In this subsection, we review the structure of the two \glspl{cnn} used in this study: \gls{fsrcnn} and \gls{ircnn}.
 
-\subsubsection{FSRCNN} The structure of \gls{fsrcnn} is composed of 5 different parts. The first four are made up of convolution layers and the last one is a deconvolution layer.
+\subsubsection{FSRCNN} The structure of \gls{fsrcnn} is composed of 5 different parts. The first four are made up of convolution layers and the last one is a deconvolution layer:
 
 \begin{figure}
 	\centering
@@ -75,32 +75,31 @@ Following the notation proposed in \cite{FSRCNN}, we denote the convolution laye
 \rightarrow & DeConv(9,1,d) \rightarrow \text{HR image}
 \end{flalign}
 
-Where \gls{prelu} \cite{PRELU} is the activation function used. With this structure, there are three variables that need to be chosen and they will directly affect the performance of the network: the mapping depth $m$, the \gls{lr} feature dimension $d$ and the number of shrinking filters $s$.
+where \gls{prelu} \cite{PRELU} is the activation function used. With this structure, there are three variables that need to be chosen and they will directly affect the performance of the network: the mapping depth $m$, the \gls{lr} feature dimension $d$ and the number of shrinking filters $s$.
 
 \subsubsection{IRCNN} The structure of \gls{ircnn} consists of seven different convolutional layers divided in three parts.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\textwidth]{images/ircnn.png}
-	\caption{Structure of \gls{ircnn}}
-	\label{fig:ircnn}
-\end{figure}
-
-
-\begin{itemize}
-	\item The first layer is a convolution layer with 64 filters of size $3$ that uses \gls{relu} as the activation function.
-	\item The following 5 layers are dilated convolution layers with 64 filters of size $3$ that use batch normalization \cite{BATCHNORM} in order to accelerate the training and improve its stability and \gls{relu} as the activation function. 
-	
-	The dilated convolution layers apply dilated convolution operations in order to capture the context information. The dilation factors of the dilated convolution layers are 2, 3, 4, 3 and 2 respectively. Figure \ref{fig:dilated} shows an example of a dilated convolution with a dilation factor of 2
-	
-	\item The last layer is a convolution layer with $c$ filters of size $3$, where $c$ is the output depth.
-\end{itemize}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/dilated.png}
 	\caption{Dilated convolution of a $5\times5$ matrix with a $2\times2$ kernel using a dilation factor of 2. The operation results in a $3\times3$ matrix.}
 	\label{fig:dilated}
+\end{figure}
+
+\begin{itemize}
+	\item The first layer is a convolution layer with 64 filters of size $3$ that uses \gls{relu} as the activation function.
+	\item The following 5 layers are dilated convolution layers with 64 filters of size $3$ that use batch normalization \cite{BATCHNORM} in order to accelerate the training and improve its stability. \gls{relu} is also used as the activation function of these layers. 
+	
+	The dilated convolution layers apply dilated convolution operations in order to capture the context information. The dilation factors of the dilated convolution layers are 2, 3, 4, 3 and 2 respectively. Figure \ref{fig:dilated} shows an example of a dilated convolution with a dilation factor of 2.
+	
+	\item The last layer is a convolution layer with $c$ filters of size $3$, where $c$ is the output depth.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/ircnn.png}
+	\caption{Structure of \gls{ircnn}}
+	\label{fig:ircnn}
 \end{figure}
 
 The described architecture is shown in Figure \ref{fig:ircnn}. In the figure, the output of the network is the residual image, that represents the noise to be removed.

@@ -2,14 +2,14 @@
 \section{Background}\label{sec:background}
 
 \subsection{Deep learning}
-\gls{dl} is a set of machine learning techniques that aim at learning representations of data with several levels of abstraction by using models with multiple processing layers \cite{DL2}. Most of the deep learning architectures are based on \glspl{ann} due to their hierarchical property \cite{DL1} \cite{DBLP:DEEPSISR}.
+\gls{dl} is a set of machine learning techniques that aim at learning representations of data with several levels of abstraction by using models with multiple processing layers \cite{DL2}. Most of the deep learning architectures are based on \glspl{ann} due to their hierarchical properties \cite{DL1} \cite{DBLP:DEEPSISR}.
 
 These set of methods have been applied in multiple fields such as speech recognition, computer vision, genomics or natural language processing bringing important breakthroughs in many research areas. More specifically, \glspl{cnn} have had a relevant impact in the field of computer vision since they have achieved superior results in tasks like object recognition, video analysis, image classification or image restoration.
 
 \subsection{Convolutional Neural Networks}
 \gls{cnn} is a class of deep neural networks that has recently shown increasing popularity due to its success in natural language processing and computer vision fields.
 
-\glspl{cnn} are different from others \glspl{ann} in the sense that former uses the convolution operation instead of matrix multiplication to propagate the data. This convolution operation is applied in the hidden layers of the \glspl{cnn} by convolutional layers. Before introducing the convolutional layers, we present the concepts of convolution, padding and stride.
+\glspl{cnn} are different from others \glspl{ann} in the sense that the former use the convolution operation instead of matrix multiplication to propagate the data through the network. This convolution operation is applied in the hidden layers of the \glspl{cnn} by convolutional layers. Before introducing the convolutional layers, we present the concepts of convolution, padding and stride.
 
 \paragraph{Convolution.} 
 
@@ -32,7 +32,7 @@ In convolution, when there is a need of increasing the size of the input data, z
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/padding.png}
-	\caption{Convolution with same padding. In the image, zero-padding is applied to a $3\times3$ matrix in order to have a $5\times5$ matrix as an input. The resulting input matrix is convolved with a $2\times2$ kernel producing a $3\times3$ output matrix.}
+	\caption{Convolution with same padding. In the image, zero-padding is applied to a $3\times3$ matrix in order to have a $5\times5$ matrix as an input. The resulting input matrix is convolved with a $3\times3$ kernel producing a $3\times3$ output matrix.}
 	\label{fig:padding}
 \end{figure}
 
@@ -49,14 +49,14 @@ Convolutional layers take matrices with dimensions $(w_1, h_1, c_1)$ that repres
 	\item $h_2 = \frac{h_2 - f + 2p}{s} + 1$
 	\item $c_2 = k$
 \end{itemize}
-where $p$ is the the amount of zero-padding used and $s$ is the value of the stride \cite{STANFORD}. It is worth noting that the third dimension of the output is given by the amount of filter used, no matter what the input's third dimension is.
+where $p$ is the the amount of zero-padding used and $s$ is the value of the stride \cite{STANFORD}. It is worth noting that the third dimension of the output is given by the amount of filters used, no matter what the input's third dimension is.
 
 \subsubsection*{Architecture of CNNs}
 The architecture of a \gls{cnn} varies depending on the task being performed, although all architectures typically share:
 \begin{itemize}
 	\item An \textbf{input layer} that is a tensor with shape 
 	$(n, h, w, c)$, where $n$ is the number of images to be processed, $w$ is the number of columns of pixels or image width, $h$ is the number of rows of pixels or image height, and $c$ is the image depth or number of channels. This data format is represented with the acronym for \gls{nhwc}. A common alternative is to use \gls{nchw}.
-	\item Multiple \textbf{hidden layers}, usually convolutional layers, that convolve their input with a set of $k$ filters, producing a set of filtered images as a result that will be used as the input of the next layer.
+	\item Multiple \textbf{hidden layers}, usually convolutional layers which convolve their input with a set of $k$ filters producing a set of filtered images that will be used as the input of the next layer.
 	\item \textbf{Activation layers} that apply an activation function to the result of the hidden layer. In \gls{cnn}, the most commonly used activation function is \gls{relu}, since it has demonstrated to make convergence faster \cite{RELU}.
 \end{itemize}
 
@@ -93,21 +93,21 @@ We introduce the 4 types of noises we have selected to perform the experiments, 
 Gaussian noise, also called electronic noise, is a type of noise caused by natural sources such as the illumination or the temperature of the sensor. This noise can be modeled as an additive matrix whose values are independent and identically distributed and follow a normal distribution with mean $\mu$ and standard deviation $\sigma$.
 
 \paragraph{Poisson noise}
-Poisson noise or shot noise arises because of the discrete nature of the electric charge and it's the dominant noise in the darker parts of the image. Shot noise follows a Poisson distribution.
+Poisson noise or shot noise arises because of the discrete nature of the electric charge and it is the dominant noise in the darker parts of the image. This noise follows a Poisson distribution.
 
-Is worth mentioning that, apart from the followed distribution, the fundamental difference between Gaussian noise and Poisson noise is that Gaussian noise is additive and Poisson noise is signal dependent. As a result, Poisson noise does not approximate to a Gaussian distribution at low intensity levels.
+It is worth mentioning that, apart from the followed distribution, the fundamental difference between Gaussian noise and Poisson noise is that Gaussian noise is additive and Poisson noise is signal dependent. As a result, Poisson noise does not approximate to a Gaussian distribution at low intensity levels.
 
 \paragraph{Salt-and-pepper noise}
 Salt-and-pepper noise or impulse value noise is a type of noise that, unlike Gaussian and Poisson noise, completely destroys the information held by part of the image. 
 
-This noise is seen it data transmission and it replaces the corrupted pixels by the minimum or maximum possible value that the pixel can have. In 8-bits images, the minimum value corresponds to 0 and the maximum value, to 255.
+This noise is seen in data transmission and it replaces the corrupted pixels by the minimum or maximum possible value that the pixels can have. In 8-bits images, the minimum value corresponds to 0 and the maximum value, to 255.
 
-The amount of salt-and-pepper noise that a image has is known as noise ratio. An image with a noise ratio of 0 has no salt-and-pepper noise, whereas an image with a noise ratio of 1 has all its pixels affected by the noise.
+The amount of salt-and-pepper noise that an image has is known as noise ratio. An image with a noise ratio of 0 has no salt-and-pepper noise, whereas an image with a noise ratio of 1 has all its pixels affected by the noise.
 
 \paragraph{Uniform noise}
-Uniform noise or quantization is typically caused by the quantization process when converting analog to digital images and it follows an uniform distribution. 
+Uniform noise or quantization noise is typically caused by the quantization process when converting analog to digital images and it follows an uniform distribution. 
 
-Like salt-and-pepper noise, uniform noise completely destroys the information of part of the image. The amount of uniform noise hat an image has is also described with the mentioned concept of noise ratio.
+Like salt-and-pepper noise, uniform noise completely destroys the information of part of the image. The amount of uniform noise that an image has is also described with the mentioned concept of noise ratio.
 
 \begin{figure}[h]
 	\centering

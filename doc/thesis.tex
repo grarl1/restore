@@ -1,3 +1,4 @@
+% !TeX spellcheck = en_US
 \documentclass[a4paper, runningheads]{llncs}
 
 % Full page margins
@@ -46,14 +47,14 @@
 \newacronym{ncsr}{NCSR}{Nonlocally Centralized Sparse Representation}
 \newacronym{hqs}{HQS}{Half Quadratic Splitting}
 \newacronym{tnrd}{TRND}{Trainable Nonlinear Reaction Diffusion}
-\newacronym{deepam}{DeepAM}{Deeply aggregated alternating minimization}
+\newacronym{deepam}{DeepAM}{Deeply aggregated Alternating Minimization}
 \newacronym{prelu}{PReLU}{Parametric Rectified Linear Unit}
 \newacronym{nhwc}{NHWC}{number of samples, height, width, channels}
 \newacronym{nchw}{NCHW}{number of samples, channels, height, width}
 \newacronym{rgb}{RGB}{Red, Green, Blue}
 \newacronym{ycbcr}{YCbCr}{$YC_bC_r$: $Y$, luma component, $C_b$, blue-difference component, $C_r$, red-difference component}
 \newacronym{mse}{MSE}{Mean Squared Error}
-\newacronym{sgd}{SGD}{Stochastic gradient descent}
+\newacronym{sgd}{SGD}{stochastic gradient descent}
 \newacronym{os}{OS}{operative system}
 
 
@@ -81,7 +82,7 @@
 	
 	\maketitle
 	
-	\abstract{We analyze the behavior of applying two well-known deep learning methods for single image super-resolution and image denoising, namely FSRCNN \cite{FSRCNN} and IRCNN \cite{IRCNN}, in different order to evaluate their combined capability to restore low resolution images with presence of noise. In order not to limit the case study to a single type of noise, Gaussian noise, Poisson noise, salt-and-pepper noise and uniform noise are applied to down-scaled images in order to construct the degraded images to be restored. As a result, we find that applying IRCNN before super-resolving the images with FSRCNN shows better results than using the networks in the opposite order for all types of noise. We also compare the quality achieved by using these deep learning methods in combination with other traditional methods. Experimental results show that FSRCNN and IRCNN achieve better restoration quality than when we use bicubic interpolation for super-resolution and median or wavelet filters for image denoising.
+	\abstract{We analyze the behavior of applying two well-known deep learning methods for single image super-resolution and image denoising, namely FSRCNN \cite{FSRCNN} and IRCNN \cite{IRCNN}, in different order to evaluate their combined capability to restore low resolution images with presence of noise. In order not to limit the case study to a single type of noise, Gaussian noise, Poisson noise, salt-and-pepper noise and uniform noise are applied to down-scaled images in order to construct the degraded images to be restored. As a result, we find that applying IRCNN before super-resolving the images with FSRCNN shows better results than using the networks in the opposite order for all types of noise. We also compare the quality achieved by using these deep learning methods in combination with other traditional algorithms: bicubic interpolation for super-resolution and median and wavelet filtering for image denoising. Our experimental results show that FSRCNN and IRCNN achieve better restoration quality than when the selected traditional methods are applied.
 	
 	\keywords{Single Image Super-Resolution, Image Denoising, Image Restoration, Convolutional Neural Networks.}\\~
 	

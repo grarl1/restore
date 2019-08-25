@@ -14,11 +14,13 @@ The same training, validation and test datasets have been used for both \gls{fsr
 \subsection{Implemented \glspl{cnn}}
 For this study, we have used our own implementation of \gls{fsrcnn} and \gls{ircnn} using Keras \cite{KERAS} in order to use the same deep learning framework for both networks.
 
-Both models use a sequential model in order to stack bi-dimensional convolution (or deconvolution) layers. All the layers use the format \gls{nhwc}.
+Both of them use a sequential model in order to stack bi-dimensional convolution (or deconvolution) layers. All the layers use the format \gls{nhwc}.
 
 In order to deal with the boundary artifacts produced by the convolution operation, zero padding has been adopted in all layers according to the filter size.
 
-For FSRCNN, the filters are initialized with variance scaling for all the convolution layers and with a Gaussian distribution with zero mean and standard deviation 0.001 for the deconvolution layer. For IRCNN, glorot uniform initializer \cite{XAVIER} is used to initialize the filters of all convolution layers.
+For FSRCNN, the filters are initialized with variance scaling for all the convolution layers and with a Gaussian distribution with zero mean and standard deviation 0.001 for the deconvolution layer. Furthermore, for the mapping depth, the LR feature dimension and the number of shrinking filters, we have used, $m=4$, $d=48$ and $s=16$, respectively, since in \cite{FSRCNN}, these settings show outstanding \gls{psnr} results compared to the rest of investigated settings.
+
+For IRCNN, glorot uniform initializer \cite{XAVIER} is used to initialize the filters of all the convolution layers.
 
 All the implementation details of the \glspl{cnn} and the datasets used can be found at \href{https://github.com/guillermoruizalv/restore}{https://github.com/\\guillermoruizalv/restore}.
 
@@ -27,7 +29,7 @@ Before being used as input of the neural networks, the 391 images used for train
 \begin{itemize}
 	\item First, since we are using \gls{rgb} images with true color (24 bits, 8-bits per channel), all the images are loaded as 3-dimensional matrices using uint8 (unsigned 8-bit integer) data type.
 	
-	Only for \gls{fsrcnn}, the images are converted from \gls{rgb} to \gls{ycbcr} Specifically, the $Y$ component is super-resolved by the network and the blue-difference and red-difference components are upscaled using bicubic interpolation.
+	Only for \gls{fsrcnn}, the images are converted from \gls{rgb} to \gls{ycbcr}. Specifically, the $Y$ component is super-resolved by the network and the blue-difference and red-difference components are upscaled using bicubic interpolation.
 	
 	\item Once the images are loaded, they are scaled to $[0,1]$ range and transformed to float64 (double precision floating-point format). 
 	
@@ -88,20 +90,20 @@ The training strategy adopted for \gls{fsrcnn} and \gls{ircnn} is common for bot
 Using this training strategy, we have had the following training results:
 \begin{itemize}
 	\item \gls{fsrcnn} was trained for 1092 epochs during approximately one day, reaching a minimum validation loss value of $0.0011$.
-	\item \gls{ircnn} was trained for 891 epochs during approximately four days, reaching a minimum validation loss value of $5.0165\times10^{-4}$
+	\item \gls{ircnn} was trained for 891 epochs during approximately four days, reaching a minimum validation loss value of $5.0165\times10^{-4}$.
 \end{itemize}
 
-The learning curves of both \glspl{cnn} are presented in Figure \ref{fig:training}. We can observe that, for \gls{fsrcnn}, the validation loss is oscillating around epoch $50$. After $10$ epochs, the learning rate is reduced with a scale factor of $0.1$ and the validation loss continues decreasing.
+The learning curves of both \glspl{cnn} are presented in Figure \ref{fig:training}. We can observe that, for \gls{ircnn}, the validation loss is oscillating around epoch $50$. After $10$ epochs, the learning rate is reduced with a scale factor of $0.1$ and the validation loss continues decreasing.
 
-In earlier experiments, the training was stopping at this stage after 25 epochs before we reduced the learning rate to a minimum of $10^-5$.
+In earlier experiments, the training was stopping at this stage after 25 epochs before we reduced the learning rate to a minimum of $10^{-5}$.
 
 \begin{figure}[h]
 	\centering
-	\begin{subfigure}{0.4\textwidth}
+	\begin{subfigure}{0.49\textwidth}
 		\includegraphics[width=\textwidth]{images/fsrcnn_train.png}
 		\caption{\gls{fsrcnn}}
 	\end{subfigure}
-	\begin{subfigure}{0.4\textwidth}
+	\begin{subfigure}{0.49\textwidth}
 		\includegraphics[width=\textwidth]{images/ircnn_train.png}
 		\caption{\gls{ircnn}}
 	\end{subfigure}
