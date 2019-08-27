@@ -1,12 +1,12 @@
 % !TeX spellcheck = en_US
 \section{Conclusions and further developments} \label{sec:conclusions}
 
-\gls{sisr} and image denoising are two important low-level computer vision tasks with multiple applications. In the last few decades, \glspl{cnn} have shown promising results while performing such kinds of restoration tasks, receiving increasing attention from researches.
+\gls{sisr} and image denoising are two important low-level computer vision tasks with multiple applications in several fields. In the last few decades, \glspl{cnn} have shown promising results while performing such kinds of restoration tasks, receiving increasing attention from researches.
 
 In this study, we have analyzed the results of the combined application of two well known \glspl{cnn} for \gls{sisr} and image denoising: \gls{fsrcnn} and \gls{ircnn}, respectively.
 Our results show that the order in which these algorithms are applied has a direct effect in their combined performance: if the \gls{sisr} algorithm is applied first, those pixels affected by the image noise will be convolved with the good information, producing low quality restoration results. Instead, if the denoiser is applied first, the \gls{sisr} will manage to super-resolve the \gls{lr} image.
 
-For this analysis, both \gls{cnn} have been trained using the same images from BSD200 \cite{BSDS}, General100 \cite{FSRCNN} and T91 \cite{T91} datasets. A Keras \cite{KERAS} is also provided with this study.
+For this analysis, both \glspl{cnn} have been trained using the same images from BSD200 \cite{BSDS}, General100 \cite{FSRCNN} and T91 \cite{T91} datasets. A Keras \cite{KERAS} implementation is also provided with this study.
 
 Furthermore, we have carried out a set of experiments comparing the performance of these deep learning methods to traditional algorithms for the \gls{sisr} and denoising tasks. In all the cases, the combination of \gls{ircnn} and \gls{fsrcnn} shows better performance than when bicubic interpolation is used for \gls{sisr} and wavelet denoising or median filtering is applied for denoising.
 
