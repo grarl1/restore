@@ -4,7 +4,7 @@
 \subsection{Deep learning}
 \gls{dl} is a set of machine learning techniques that aim at learning representations of data with several levels of abstraction by using models with multiple processing layers \cite{DL2}. Most of the deep learning architectures are based on \glspl{ann} due to their hierarchical properties \cite{DL1} \cite{DBLP:DEEPSISR}.
 
-These set of methods have been applied in multiple fields such as speech recognition, computer vision, genomics or natural language processing bringing important breakthroughs in many research areas. More specifically, \glspl{cnn} have had a relevant impact in the field of computer vision since they have achieved superior results in tasks like object recognition, video analysis, image classification or image restoration.
+This set of methods have been applied in multiple fields such as speech recognition, computer vision, genomics or natural language processing bringing important breakthroughs in many research areas. More specifically, \glspl{cnn} have had a relevant impact in the field of computer vision since they have achieved superior results in tasks such as object recognition, video analysis, image classification or image restoration.
 
 \subsection{Convolutional Neural Networks}
 \gls{cnn} is a class of deep neural networks that has recently shown increasing popularity due to its success in natural language processing and computer vision fields.
@@ -39,7 +39,7 @@ In convolution, when there is a need of increasing the size of the input data, z
 On the other hand, when there is no padding applied to the input of the convolution, the kernel always stays at a valid position within the input matrix, producing that the output size shrinks depending on the kernel size. For this reason, this kind of padding can be called \textbf{valid} padding or no-padding. Figure \ref{fig:convolution} shows this behavior.
 
 \paragraph{Stride.}
-When an image is convolved with a kernel, the kernel is shifted over the image in order to compute each cell value of the output matrix. In figures \ref{fig:convolution} and \ref{fig:padding}, we slide the kernel 1 cell at a time, however, the number of pixels traversed per slide can be different that 1. This number is called \textbf{stride}, and it represents the number of cells that the kernel matrix is shifted over the input matrix in order to compute the next output cell value.
+When an image is convolved with a kernel, the kernel is shifted over the image in order to compute each cell value of the output matrix. In figures \ref{fig:convolution} and \ref{fig:padding}, we slide the kernel 1 cell at a time, however, the number of pixels traversed per slide can be different from 1. This number is called \textbf{stride}, and it represents the number of cells that the kernel matrix is shifted over the input matrix in order to compute the next output cell value.
 
 \subsubsection*{Convolutional layers}
 Convolutional layers take matrices with dimensions $(w_1, h_1, c_1)$ that represent input images with width $w_1$, height $h_1$ and $c_1$ channels. This matrices are convolved with $k$ filters of size $f$, producing an output matrix with dimensions $(w_2, h_2, c_2)$, with:
@@ -49,13 +49,13 @@ Convolutional layers take matrices with dimensions $(w_1, h_1, c_1)$ that repres
 	\item $h_2 = \frac{h_2 - f + 2p}{s} + 1$
 	\item $c_2 = k$
 \end{itemize}
-where $p$ is the the amount of zero-padding used and $s$ is the value of the stride \cite{STANFORD}. It is worth noting that the third dimension of the output is given by the amount of filters used, no matter what the input's third dimension is.
+where $p$ is the the amount of zero-padding used and $s$ is the value of the stride \cite{STANFORD}. It is worth noting that the third dimension of the output is given by the amount of filters used, without regard of what the input's third dimension is.
 
 \subsubsection*{Architecture of CNNs}
 The architecture of a \gls{cnn} varies depending on the task being performed, although all architectures typically share:
 \begin{itemize}
 	\item An \textbf{input layer} that is a tensor with shape 
-	$(n, h, w, c)$, where $n$ is the number of images to be processed, $w$ is the number of columns of pixels or image width, $h$ is the number of rows of pixels or image height, and $c$ is the image depth or number of channels. This data format is represented with the acronym for \gls{nhwc}. A common alternative is to use \gls{nchw}.
+	$(n, h, w, c)$, where $n$ is the number of images to be processed, $h$ is the number of rows of pixels or image height, $w$ is the number of columns of pixels or image width, and $c$ is the image depth or number of channels. This data format is represented with the acronym for \gls{nhwc}. A common alternative is to use \gls{nchw}.
 	\item Multiple \textbf{hidden layers}, usually convolutional layers which convolve their input with a set of $k$ filters producing a set of filtered images that will be used as the input of the next layer.
 	\item \textbf{Activation layers} that apply an activation function to the result of the hidden layer. In \gls{cnn}, the most commonly used activation function is \gls{relu}, since it has demonstrated to make convergence faster \cite{RELU}.
 \end{itemize}
