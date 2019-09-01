@@ -1,5 +1,5 @@
 % Reduce noise using imbilatfilt
-function [] = r_wiener(input_path, output_path)
+function [] = r_wavelet(input_path, output_path)
 
     % Create output dir
     disp("Creating " + output_path);
