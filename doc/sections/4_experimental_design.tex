@@ -1,15 +1,7 @@
 % !TeX spellcheck = en_US
 \section{Experimental Design}\label{sec:experimental_design}
 
-In this section, we present the image datasets used for the training, validation and test steps, we expose the details of our implementation of both \glspl{cnn}, we show how the images are pre-processed before the training and we described the followed training strategies and set of experiments.
-
-\subsection{Training, Validation and Test datasets}
-
-For training and validation, BSD200 \cite{BSDS}, General100 \cite{FSRCNN} and T91 \cite{T91} datasets have been used, bringing the total of images to 391. A 10\% of these images have been randomly chosen for validation, therefore, the training set has 352 images and the validation set, 39.
-
-Set5 \cite{SET5} and Set14 \cite{SET14} have been used for the test stage, making a total of 19 images.
-
-The same training, validation and test datasets have been used for both \gls{fsrcnn} and \gls{ircnn}. 
+In this section, we expose the details of our implementation of both \glspl{cnn}, we present the image datasets used for the training, validation and test steps, we show how the images are pre-processed before the training and we described the followed training strategies and set of experiments.
 
 \subsection{Implemented \glspl{cnn}}
 For this study, we have used our own implementation of \gls{fsrcnn} and \gls{ircnn} using Keras \cite{KERAS} in order to use the same deep learning framework for both networks.
@@ -23,6 +15,15 @@ For FSRCNN, the filters are initialized with variance scaling for all the convol
 For IRCNN, glorot uniform initializer \cite{XAVIER} is used to initialize the filters of all the convolution layers.
 
 All the implementation details of the \glspl{cnn} and the datasets used can be found at \href{https://github.com/guillermoruizalv/restore}{https://github.com/\\guillermoruizalv/restore}.
+
+\subsection{Training, Validation and Test datasets}
+
+For training and validation, BSD200 \cite{BSDS}, General100 \cite{FSRCNN} and T91 \cite{T91} datasets have been used, bringing the total of images to 391. A 10\% of these images have been randomly chosen for validation, therefore, the training set has 352 images and the validation set, 39.
+
+Set5 \cite{SET5} and Set14 \cite{SET14} have been used for the test stage, making a total of 19 images.
+
+The same training, validation and test datasets have been used for both \gls{fsrcnn} and \gls{ircnn}. 
+
 
 \subsection{Image pre-processing}
 Before being used as input of the neural networks, the 391 images used for training and validation are pre-processed using some common and some model-dependent steps:
@@ -50,11 +51,8 @@ A last pre-processing step is applied to the training and validation images depe
 	\end{itemize}
 \end{itemize}
 
-\subsection{Training hardware, strategy and results}
-\paragraph{Training hardware}
-The training has been carried out in a server running Ubuntu 18.04 LTS with a Nvidia Geforce GTX 1060 with compute capability of $6.1$. Most of the development has been done in a different machine with the same \gls{os} and a Nvidia Geforce GT 730M with compute capability of $3.5$.
+\subsection{Training strategy}
 
-\paragraph{Training strategy}
 The training strategy adopted for \gls{fsrcnn} and \gls{ircnn} is common for both cases except for the used learning rates.
 
 \begin{itemize}
@@ -86,6 +84,9 @@ The training strategy adopted for \gls{fsrcnn} and \gls{ircnn} is common for bot
 
 \end{itemize}
 
+\paragraph{Training hardware}
+The training has been carried out in a server running Ubuntu 18.04 LTS with a Nvidia Geforce GTX 1060 with compute capability of $6.1$. Most of the development has been done in a different machine with the same \gls{os} and a Nvidia Geforce GT 730M with compute capability of $3.5$.
+
 \paragraph{Training results}
 Using this training strategy, we have had the following training results:
 \begin{itemize}
@@ -111,8 +112,46 @@ In earlier experiments, the training was stopping at this stage after 25 epochs 
 	\label{fig:training}
 \end{figure}
 
+\subsection{Selected traditional methods for \gls{sisr} and denoising}
+For this study, we have selected three traditional algorithms for the \gls{sisr} and denoising tasks in order to evaluate their performance when used along with the deep learning methods.
+
+We have selected bicubic interpolation for the \gls{sisr} task and wavelet and median filtering for image denoising.
+
+\paragraph{Bicubic interpolation}
+Bicubic interpolation is a method that interpolates the data between 4 corner points of a two-dimensional grid by using a third order polynomial function.
+
+The interpolation function can be expressed as follows:
+$$f_i(x) = \sum_{i=0}^{3}\sum_{j=0}^3 a_{ij}x^iy^j$$
+
+where the 16 coefficients $a_{ij}$ need to be determined. In order to do so, the values of the interpolated function $f$, and the horizontal, vertical and diagonal derivative values need to be known at the 4 corner points, which are calculated taking into account a neighborhood of 16 data points ($4\times 4$ sub-matrix).
+
+Bicubic interpolations presents smoother results than other interpolation methods such as bilinear interpolation or nearest neighbor interpolation, which do not take into account the derivative values at the corner points.
+
+On the other hand, bicubic interpolation presents a lower performance in terms of speed compared to these methods given the higher complexity of the algorithm.
+
+\paragraph{Wavelet denoising}
+Wavelet denoising is a method that uses wavelets to remove the noise from signal and images.
+
+A wavelet is a signal that presents a wave-like shape, whose amplitude starts at zero and varies increasing and decreasing before fading back to 0. In wavelet denoising, wavelets are used to divide a signal into different scale components. 
+
+By using the wavelet transform, the signal or image features are localized and concentrated in a set of wavelet coefficients. When this coefficients are small, they typically represent the signal or image noise that needs to be removed. The denoiser shrinking process reduces or completely remove these coefficients and leave large coefficient unaltered, which represent the actual signal or image without noise \cite{WAVELET}.
+
+Once these noise features are reduced or removed, the output signal can be reconstructed by applying the inverse wavelet transform.
+
+\paragraph{Median filtering}
+Median filtering is a simple algorithm that constructs a window of a given size that slides over the entire image being processed and replaces each pixel by the median value in a neighborhood represented by the moving window.
+
 \subsection{Set of experiments}
-We have carried out the following set of experiments using Set5 \cite{SET5} and Set14 \cite{SET14} as test datasets:
+The sets of experiments carried out for this study is divided into three different subsets:
+\begin{itemize}
+	\item Experiments using only deep learning solutions for \gls{sisr} and denoising.
+	\item Experiments combining deep learning solutions and the selected traditional methods for \gls{sisr} and denoising.
+	\item Experiment using only the selected traditional methods for \gls{sisr} and denoising.
+\end{itemize}
+All these experiments are carried out using Set5 \cite{SET5} and Set14 \cite{SET14} as test datasets and \gls{psnr} and \gls{ssim} as quality metrics.
+
+\paragraph{Subset 1:}
+We have carried out the following set of experiments as part of the first subset:
 \begin{itemize}
 	\item \textbf{Experiment 1.1}: Evaluation of \gls{fsrcnn} $+$ \gls{ircnn} on Set5 and Set14.
 	\item \textbf{Experiment 1.2}: Evaluation of \gls{ircnn} $+$ \gls{fsrcnn} on Set5 and Set14.
@@ -120,6 +159,7 @@ We have carried out the following set of experiments using Set5 \cite{SET5} and 
 
 The aim of these two experiments is to get to know which combination performs better on the given noisy images.
 
+\paragraph{Subset 2:}
 Apart from these and given their results, we also perform the following experiments in order to evaluate the performance of the deep learning methods compared to the selected traditional methods. This set of experiments use a deep learning method and a traditional method for either \gls{sisr} or image denoising:
 \begin{itemize}
 	\item \textbf{Experiment 2.1}: Evaluation of \gls{ircnn} $+$ bicubic interpolation.
@@ -127,9 +167,9 @@ Apart from these and given their results, we also perform the following experime
 	\item \textbf{Experiment 2.3}: Evaluation of median filter $+$ \gls{fsrcnn}.
 \end{itemize}
 
+\paragraph{Subset 3:}
 Finally, the following set of experiments is carried out to have a benchmark based purely on traditional algorithms:
 \begin{itemize}
 \item \textbf{Experiment 3.1}:  Evaluation of wavelet denoiser $+$ bicubic interpolation.
 \item \textbf{Experiment 3.2}:  Evaluation of median filter $+$ bicubic interpolation.
 \end{itemize}
-All these experiments are carried out using \gls{psnr} and \gls{ssim} as quality metrics.
